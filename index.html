@@ -578,13 +578,17 @@ a:hover{text-decoration:underline}
       <div class="field"><label>Guides / staff (count)</label><input id="c_guides" type="number" value="4"></div>
       <div class="field"><label>Wage / staff / month (AED)</label><input id="c_gwage" type="number" value="3800"></div>
       <div class="field"><label>Fuel+maint / vehicle / mo (AED)</label><input id="c_fuelm" type="number" value="900"></div>
-      <div class="field"><label>Overheads / month (AED)</label><input id="c_oh" type="number" value="8000"></div>
-      <div class="field"><label>OTA commission (%)</label><input id="c_ota" type="number" value="20"></div>
+      <div class="field"><label>Overheads / month (AED)</label><input id="c_oh" type="number" value="12000"></div>
+      <div class="field"><label>Channel + host share (%)</label><input id="c_ota" type="number" value="30"></div>
     </div>
   </div>
   <div class="grid g4" id="econOut"></div>
+  <div class="card amber" style="margin-top:16px">
+    <div class="k">Read these outputs as operating contribution — not final net profit</div>
+    <p style="margin-top:2px">The model captures fleet, staff, fuel/maintenance, overheads and the channel + host revenue share. It <b>excludes</b> marketing / customer-acquisition cost, standalone insurance premiums, payment-processing &amp; financing costs, depreciation and tax. Treat EBITDA here as an <b>upper bound</b>; real net margin will be lower. Use it to compare scenarios and test sensitivity, not as a profit forecast.</p>
+  </div>
   <h3 class="block"><span class="bar2"></span>Scenario comparison — Base &middot; Bull &middot; Bear</h3>
-  <p class="lead" style="margin-bottom:14px">Same engine, three worlds. <b>Base</b> = realistic seasonal coastal test. <b>Bull</b> = Cappadocia year-round, premium/VIP tilt, more direct sales (less OTA). <b>Bear</b> = soft demand, short season, FX/cost pressure, OTA-dependent. Tap a scenario to load it into the calculator above and tweak.</p>
+  <p class="lead" style="margin-bottom:14px">Same engine, three worlds. <b>Base</b> = realistic seasonal coastal test. <b>Bull</b> = Cappadocia year-round, premium/VIP tilt, more direct sales (lower channel/host share). <b>Bear</b> = soft demand, short season, FX/cost pressure, OTA-dependent. Tap a scenario to load it into the calculator above and tweak.</p>
   <div class="tbl-wrap"><div class="tbl-scroll">
     <table id="scenTable"><thead><tr><th>Metric</th><th class="num">◆ Base</th><th class="num">▲ Bull</th><th class="num">▼ Bear</th></tr></thead><tbody id="scenBody"></tbody></table>
   </div></div>
@@ -593,7 +597,7 @@ a:hover{text-decoration:underline}
     <button data-sc="bull">⤓ Load Bull</button>
     <button data-sc="bear">⤓ Load Bear</button>
   </div>
-  <p class="note">Model: gross revenue = fleet × tours/day × days × ticket × utilisation (1 paying rider/vehicle/tour). Net = less OTA commission. EBITDA = net − (staff + fuel/maint + overheads). Payback = capex ÷ EBITDA. Break-even = riders/day to cover opex + 5-yr straight-line capex. Cost anchors: Turkey 2026 min wage ₺33,030 gross (~AED 2,650), petrol ~₺64/L (~AED 5.1). A planning model — not a forecast or guarantee.</p>
+  <p class="note">Model: gross revenue = fleet × tours/day × days × ticket × utilisation (1 paying rider/vehicle/tour). Net = less channel + host share. EBITDA = net − (staff + fuel/maint + overheads). Payback = capex ÷ EBITDA. Break-even = riders/day to cover opex + 5-yr straight-line capex. Cost anchors: Turkey 2026 min wage ₺33,030 gross (~AED 2,650), petrol ~₺64/L (~AED 5.1). A planning model — not a forecast or guarantee.</p>
 </section>
 
 <!-- 12 COMPETITION & RISK -->
@@ -682,7 +686,7 @@ a:hover{text-decoration:underline}
       <tr><td class="brand">Lead / heavier guests</td><td>CFMOTO CFORCE 625 Touring</td><td class="num">2</td><td class="model">More torque for guide-lead + tandem capability.</td><td class="num">~55,800</td></tr>
       <tr><td class="brand">VIP tier</td><td>CFMOTO ZFORCE 1000 Sport R</td><td class="num">2</td><td class="model">Sport SxS for the +40–60% private/VIP product.</td><td class="num">~73,300</td></tr>
       <tr><td class="brand">Spare / safety</td><td>CFORCE 450L (reserve)</td><td class="num">2</td><td class="model">Downtime cover — keeps utilisation up.</td><td class="num">~44,600</td></tr>
-      <tr style="background:rgba(58,240,180,.06)"><td class="brand">—</td><td class="brand">Fleet subtotal (14 units)</td><td class="num">14</td><td class="model">Buy new via UMA, or mix in used to cut ~30–40%.</td><td class="num"><b>~AED 715k</b></td></tr>
+      <tr style="background:rgba(58,240,180,.06)"><td class="brand">—</td><td class="brand">Fleet subtotal (14 units)</td><td class="num">14</td><td class="model">Buy new via UMA, or mix in used to cut ~30–40%.</td><td class="num"><b>~AED 705k</b></td></tr>
     </tbody>
   </table>
   </div></div>
@@ -1004,7 +1008,7 @@ function calc(){
   const ebClass=ebitda>=0?'green':'red';
   out.innerHTML=
     '<div class="card cyan"><div class="k">Total capex</div><div class="stat cyan" style="font-size:30px">'+aedFmt(capex)+'</div>'+tryNote(capex)+'<p>Fleet + entity/licence setup.</p></div>'+
-    '<div class="card"><div class="k">Annual net revenue</div><div class="stat" style="font-size:30px">'+aedFmt(net)+'</div>'+tryNote(net)+'<p>After '+Math.round(ota*100)+'% OTA commission.</p></div>'+
+    '<div class="card"><div class="k">Annual net revenue</div><div class="stat" style="font-size:30px">'+aedFmt(net)+'</div>'+tryNote(net)+'<p>After '+Math.round(ota*100)+'% channel + host share.</p></div>'+
     '<div class="card amber"><div class="k">Annual opex</div><div class="stat amber" style="font-size:30px">'+aedFmt(opex)+'</div>'+tryNote(opex)+'<p>Staff + fuel/maint + overheads.</p></div>'+
     '<div class="card '+ebClass+'"><div class="k">EBITDA / yr</div><div class="stat '+ebClass+'" style="font-size:30px">'+aedFmt(ebitda)+'</div>'+tryNote(ebitda)+'<p>'+margin+'% margin on net revenue.</p></div>'+
     '<div class="card green"><div class="k">Payback period</div><div class="stat green" style="font-size:30px">'+(payback?payback.toFixed(1)+'<small> yrs</small>':'—')+'</div><p>Capex ÷ EBITDA'+(payback&&payback>5?' — slow; revisit assumptions.':'.')+'</p></div>'+
@@ -1018,9 +1022,9 @@ function calc(){
 
 /* SCENARIOS */
 const SCEN={
-  base:{fleet:12,vcost:45000,setup:90000,ticket:180,tpd:3,days:210,util:70,guides:4,gwage:3800,fuelm:900,oh:8000,ota:20},
-  bull:{fleet:16,vcost:48000,setup:100000,ticket:240,tpd:3.5,days:320,util:80,guides:6,gwage:4200,fuelm:1000,oh:11000,ota:12},
-  bear:{fleet:10,vcost:50000,setup:110000,ticket:150,tpd:2.5,days:170,util:55,guides:4,gwage:4000,fuelm:1100,oh:9000,ota:28}
+  base:{fleet:12,vcost:45000,setup:90000,ticket:180,tpd:3,days:210,util:70,guides:4,gwage:3800,fuelm:900,oh:12000,ota:30},
+  bull:{fleet:16,vcost:48000,setup:100000,ticket:240,tpd:3,days:300,util:75,guides:6,gwage:4200,fuelm:1000,oh:40000,ota:25},
+  bear:{fleet:10,vcost:50000,setup:110000,ticket:150,tpd:2.5,days:170,util:55,guides:4,gwage:4000,fuelm:1100,oh:13000,ota:40}
 };
 function computeScen(p){
   const capex=p.fleet*p.vcost+p.setup;
@@ -1042,7 +1046,7 @@ function renderScen(){
   body.innerHTML=
     row('Fleet · season',(p)=>p.fleet+' · '+p.days+'d')+
     row('Ticket · util',(p)=>'AED '+p.ticket+' · '+p.util+'%')+
-    row('OTA commission',(p)=>p.ota+'%')+
+    row('Channel + host share',(p)=>p.ota+'%')+
     row('Total capex',(p,m)=>aedFmt(m.capex))+
     row('Annual net revenue',(p,m)=>aedFmt(m.net))+
     row('Annual opex',(p,m)=>aedFmt(m.opex))+
