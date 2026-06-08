@@ -181,6 +181,8 @@ h3.block .bar2{display:inline-block;width:28px;height:3px;background:var(--red);
 .mlegend{display:flex;gap:16px;flex-wrap:wrap;font-size:11.5px;color:var(--muted);margin:10px 0 4px;font-family:'JetBrains Mono'}
 .mlegend span{display:inline-flex;align-items:center;gap:6px}
 .mlegend i{width:12px;height:12px;border-radius:50%;display:inline-block;border:1px solid rgba(255,255,255,.4)}
+.leaflet-tooltip.zlab{background:rgba(8,9,12,.8);border:1px solid rgba(255,255,255,.28);color:#fff;font-family:'JetBrains Mono';font-size:10px;font-weight:700;letter-spacing:.04em;text-transform:uppercase;box-shadow:0 1px 6px rgba(0,0,0,.5);padding:3px 7px;white-space:nowrap}
+.leaflet-tooltip.zlab::before{display:none}
 /* engine-size bands */
 .band-panel{background:linear-gradient(160deg,var(--panel),var(--bg2));border:1px solid var(--line);border-radius:10px;margin-bottom:20px;overflow:hidden}
 .band-panel::before{content:"";display:block;height:3px;background:linear-gradient(90deg,var(--red),transparent 70%)}
@@ -1212,19 +1214,19 @@ document.getElementById('scenLoad').addEventListener('click',e=>{
 /* SCOUTING MAPS (Leaflet, lazy-init on tab open) */
 const REGIONS=[
  {id:'map_capp',center:[38.645,34.84],zoom:12,
-  zones:[{la:38.645,lo:34.832,r:13000,c:'#3af0b4',t:'Prime catchment — all Cappadocia hotels ≤1 hr, year-round'}],
+  zones:[{la:38.645,lo:34.832,r:13000,c:'#3af0b4',lab:'PRIME · year-round',t:'Prime catchment — all Cappadocia hotels ≤1 hr, year-round'}],
   bases:[{la:38.6512,lo:34.8470,n:'Göreme / Çavuşin fringe'}],
   ops:[{la:38.6431,lo:34.8379,n:'Cappadocia Adventure',r:4.7,d:'Göreme 5m'},{la:38.6514,lo:34.8361,n:'ATV Turları Göreme',r:4.8,d:'Göreme 5m'},{la:38.6411,lo:34.8311,n:'Cappadocia Atv Tour',r:4.9,d:'Göreme 5m'},{la:38.6460,lo:34.8247,n:'Göreme Rental ATV',r:4.6,d:'Göreme 5m'},{la:38.6440,lo:34.8317,n:'Kapadokya ATV Turu',r:4.7,d:'Göreme 5m'},{la:38.6486,lo:34.8340,n:'Stone White Travel',r:4.0,d:'Göreme 5m'}]},
  {id:'map_ant',center:[36.80,30.98],zoom:9,
-  zones:[{la:36.68,lo:30.56,r:12000,c:'#3af0b4',t:'Kemer catchment — prime'},{la:37.01,lo:30.82,r:14000,c:'#3af0b4',t:'Belek / Aksu catchment — prime (airport-adjacent, 5-star belt)'},{la:36.80,lo:31.45,r:17000,c:'#3af0b4',t:'Side / Manavgat catchment — prime (largest bed-base)'}],
+  zones:[{la:36.68,lo:30.56,r:12000,c:'#3af0b4',lab:'PRIME · Kemer',t:'Kemer catchment — prime'},{la:37.01,lo:30.82,r:14000,c:'#3af0b4',lab:'PRIME · Belek/Aksu',t:'Belek / Aksu catchment — prime (airport-adjacent, 5-star belt)'},{la:36.80,lo:31.45,r:17000,c:'#3af0b4',lab:'PRIME · Side',t:'Side / Manavgat catchment — prime (largest bed-base)'}],
   bases:[{la:37.0100,lo:30.8180,n:'Belek / Aksu (primary)'},{la:36.6790,lo:30.5585,n:'Kemer'},{la:36.8450,lo:31.4970,n:'Side / Manavgat'}],
   ops:[{la:37.0099,lo:30.8177,n:'Antalya Buggy-Quad',r:4.2,d:'Belek 20–30m'},{la:36.6805,lo:30.5573,n:'Likya Quad Safari',r:4.7,d:'Kemer 15m'},{la:36.6744,lo:30.5590,n:'Göynük Quad Safari',r:3.3,d:'Kemer 15m'},{la:36.5641,lo:30.5255,n:'Paradise Quad Safari',r:4.5,d:'Kemer 25m'},{la:36.8448,lo:31.4965,n:"Cat's Quad & Buggy",r:3.6,d:'Side 25–30m'},{la:36.7742,lo:31.4039,n:'Side Tours Antalya',r:4.8,d:'Side 5m'}]},
  {id:'map_bod',center:[37.05,27.52],zoom:11,
-  zones:[{la:37.05,lo:27.52,r:18000,c:'#ffb000',t:'Workable catchment — compact but summer-only & SİT-sensitive'}],
+  zones:[{la:37.05,lo:27.52,r:16000,c:'#ffb000',lab:'WORKABLE · summer-only',t:'Workable catchment — compact but summer-only & SİT-sensitive'}],
   bases:[{la:37.0858,lo:27.6292,n:'Çamarası / Mazı interior'}],
   ops:[{la:37.0858,lo:27.6292,n:'Bodrum Atv Buggy Safari',r:4.4,d:'Bodrum 15m'},{la:37.0348,lo:27.4019,n:'Bodrum Quad ATV Rent',r:5.0,d:'Gümbet 0–5m'}]},
  {id:'map_ist',center:[41.06,29.30],zoom:9,
-  zones:[{la:41.13,lo:29.59,r:11000,c:'#ffb000',t:'Şile trail zone — good off-road, wrong catchment'},{la:41.008,lo:28.978,r:7000,c:'#FF2800',t:'Foreign-tourist hotel core (Sultanahmet / Taksim) — Şile is 75–90 min away: FAILS the 1-hr test'}],
+  zones:[{la:41.13,lo:29.59,r:11000,c:'#ffb000',lab:'TRAIL OK · wrong catchment',t:'Şile trail zone — good off-road, wrong catchment'},{la:41.008,lo:28.978,r:7000,c:'#FF2800',lab:'FAILS 1-HR · tourist core',t:'Foreign-tourist hotel core (Sultanahmet / Taksim) — Şile is 75–90 min away: FAILS the 1-hr test'}],
   bases:[{la:41.1300,lo:29.5900,n:'Şile / Ağva forest'}],
   ops:[{la:41.1664,lo:29.5623,n:'Safari Life Istanbul',r:4.4,d:'core 75–90m'},{la:41.1641,lo:29.5836,n:'İstanbul ATV Şile',r:4.7,d:'core 75–90m'},{la:41.1182,lo:29.5933,n:'Şile Quad Safari',r:4.6,d:'core 80–95m'},{la:41.1273,lo:29.8538,n:'Ağva ATV Safari',r:5.0,d:'core 95m+'},{la:41.1358,lo:29.8410,n:'Ağva atv safari',r:4.5,d:'core 95m+'}],
   extra:[{la:41.0082,lo:28.9784,n:'Sultanahmet — tourist-hotel core'}]}
@@ -1237,8 +1239,10 @@ function initScoutMaps(){
   scoutInit=true;
   REGIONS.forEach(R=>{
     const m=L.map(R.id,{scrollWheelZoom:false}).setView(R.center,R.zoom);
-    L.tileLayer('https://{s}.basemap.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png',{attribution:'© OpenStreetMap © CARTO',subdomains:'abcd',maxZoom:19}).addTo(m);
-    R.zones.forEach(z=>L.circle([z.la,z.lo],{radius:z.r,color:z.c,weight:1.5,dashArray:'5 4',fillColor:z.c,fillOpacity:.12}).addTo(m).bindPopup(z.t));
+    L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}',{attribution:'Imagery © Esri',maxZoom:19}).addTo(m);
+    L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/Reference/World_Boundaries_and_Places/MapServer/tile/{z}/{y}/{x}',{maxZoom:19,opacity:.9}).addTo(m);
+    L.control.scale({imperial:false}).addTo(m);
+    R.zones.forEach(z=>L.circle([z.la,z.lo],{radius:z.r,color:z.c,weight:2,fillColor:z.c,fillOpacity:.16}).addTo(m).bindPopup(z.t).bindTooltip(z.lab,{permanent:true,direction:'center',className:'zlab'}));
     (R.bases||[]).forEach(b=>L.circleMarker([b.la,b.lo],{radius:9,color:'#07120d',weight:2,fillColor:'#3af0b4',fillOpacity:1}).addTo(m).bindPopup('<b>◆ PROPOSED BASE</b><br>'+b.n+'<br><a href="'+gmap(b.la,b.lo)+'" target="_blank" rel="noopener">Open in Google Maps ↗</a>'));
     (R.extra||[]).forEach(x=>L.circleMarker([x.la,x.lo],{radius:7,color:'#fff',weight:1,fillColor:'#8b909c',fillOpacity:.9}).addTo(m).bindPopup('<b>'+x.n+'</b><br><a href="'+gmap(x.la,x.lo)+'" target="_blank" rel="noopener">Open in Google Maps ↗</a>'));
     R.ops.forEach(o=>L.circleMarker([o.la,o.lo],{radius:7,color:'#fff',weight:1,fillColor:'#FF2800',fillOpacity:.92}).addTo(m).bindPopup('<b>'+o.n+'</b><br>'+o.r+'★ · '+o.d+'<br><a href="'+gmap(o.la,o.lo)+'" target="_blank" rel="noopener">Open in Google Maps ↗</a>'));
