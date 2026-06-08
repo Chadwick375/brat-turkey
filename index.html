@@ -224,6 +224,7 @@ a:hover{text-decoration:underline}
     <button data-tab="setup"><span class="n">10</span> Setup &amp; Compliance</button>
     <button data-tab="econ"><span class="n">11</span> Unit Economics</button>
     <button data-tab="risk"><span class="n">12</span> Competition &amp; Risk</button>
+    <button data-tab="play2"><span class="n">13</span> The Play</button>
   </nav>
 </header>
 
@@ -582,6 +583,16 @@ a:hover{text-decoration:underline}
     </div>
   </div>
   <div class="grid g4" id="econOut"></div>
+  <h3 class="block"><span class="bar2"></span>Scenario comparison — Base &middot; Bull &middot; Bear</h3>
+  <p class="lead" style="margin-bottom:14px">Same engine, three worlds. <b>Base</b> = realistic seasonal coastal test. <b>Bull</b> = Cappadocia year-round, premium/VIP tilt, more direct sales (less OTA). <b>Bear</b> = soft demand, short season, FX/cost pressure, OTA-dependent. Tap a scenario to load it into the calculator above and tweak.</p>
+  <div class="tbl-wrap"><div class="tbl-scroll">
+    <table id="scenTable"><thead><tr><th>Metric</th><th class="num">◆ Base</th><th class="num">▲ Bull</th><th class="num">▼ Bear</th></tr></thead><tbody id="scenBody"></tbody></table>
+  </div></div>
+  <div class="filters" id="scenLoad" style="margin-top:14px">
+    <button data-sc="base">⤓ Load Base into calculator</button>
+    <button data-sc="bull">⤓ Load Bull</button>
+    <button data-sc="bear">⤓ Load Bear</button>
+  </div>
   <p class="note">Model: gross revenue = fleet × tours/day × days × ticket × utilisation (1 paying rider/vehicle/tour). Net = less OTA commission. EBITDA = net − (staff + fuel/maint + overheads). Payback = capex ÷ EBITDA. Break-even = riders/day to cover opex + 5-yr straight-line capex. Cost anchors: Turkey 2026 min wage ₺33,030 gross (~AED 2,650), petrol ~₺64/L (~AED 5.1). A planning model — not a forecast or guarantee.</p>
 </section>
 
@@ -628,6 +639,95 @@ a:hover{text-decoration:underline}
   </table>
   </div></div>
   <p class="note">Competitor data from Tab 05 research; SWOT/risk are analytical judgement for decision framing. Likelihood/impact are indicative ratings, not quantified probabilities.</p>
+</section>
+
+<!-- 13 THE PLAY -->
+<section class="tab" id="play2">
+  <div class="sect-h"><span class="id">13 //</span><h2>The Play — Recommendation</h2><div class="rule"></div></div>
+  <div class="card green" style="margin-bottom:20px">
+    <div class="k">The verdict</div>
+    <p style="font-size:15.5px;color:var(--txt)">Turkey is a <b>go — but as a staged, asset-light test, not a full launch.</b> The hardware case is strong and cheap in-country; the yield case is thin and seasonal. So: <b>enter via a licensed host-operator</b> (no upfront TÜRSAB build), <b>anchor in Cappadocia</b> for year-round revenue and premium-justifying terrain, run a <b>value CFMOTO fleet with a small VIP tier</b>, sell <b>direct-first</b>, and underwrite to the <b>Base case</b> with Bull as upside and Bear as the line you must not cross. Prove the unit economics over one season, then license-up and scale to Antalya.</p>
+  </div>
+  <div class="grid g4">
+    <div class="card"><div class="k">Where</div><div class="stat" style="font-size:26px">Cappadocia</div><p>Year-round (incl. snow) = the seasonality hedge. Iconic terrain justifies premium pricing. Antalya = Phase-2 seasonal expansion.</p></div>
+    <div class="card cyan"><div class="k">How to enter</div><div class="stat cyan" style="font-size:26px">Host model</div><p>Run BRAT-branded tours on a licensed DMC's TÜRSAB cover. Skips months of licensing; fully reversible.</p></div>
+    <div class="card amber"><div class="k">Underwrite to</div><div class="stat amber" style="font-size:26px">Base case</div><p>~AED 180 ticket, 210 days, 70% util. Bull is upside; Bear sets your kill-line.</p></div>
+    <div class="card green"><div class="k">Capital ask (indicative)</div><div class="stat green" style="font-size:26px">AED ~1.0&ndash;1.3M</div><p>Fleet + kit + setup + ~6mo opex runway. See Tab 11 Base case.</p></div>
+  </div>
+
+  <h3 class="block"><span class="bar2"></span>Phased roadmap</h3>
+  <div class="grid g2">
+    <div class="card cyan">
+      <div class="k">Phase 0 — Validate &nbsp;·&nbsp; months 0&ndash;6</div>
+      <div class="li"><div class="dot c"></div><div><h4>Sign a host-operator partner</h4><p>Licensed Cappadocia DMC; BRAT supplies fleet, SOPs, brand &amp; premium guiding. Revenue-share or fixed-lease.</p></div></div>
+      <div class="li"><div class="dot c"></div><div><h4>Buy a starter fleet in-country</h4><p>~8&ndash;12 units via İstanbul ATV / UMA network or used (arabam/sahibinden). T3-register.</p></div></div>
+      <div class="li"><div class="dot c"></div><div><h4>Stand up ops</h4><p>Practice-park briefing, safety SOPs, 2&ndash;3 certified guides, mechanic, insurance, WhatsApp + 1&ndash;2 OTA listings.</p></div></div>
+      <div class="li"><div class="dot c"></div><div><h4>Soft launch &amp; measure</h4><p>Run the Base-case model live. Track the KPIs below for one peak block.</p></div></div>
+    </div>
+    <div class="card">
+      <div class="k">Phase 1 — Commit &amp; scale &nbsp;·&nbsp; months 6&ndash;18 (if KPIs hit)</div>
+      <div class="li"><div class="dot g"></div><div><h4>License up</h4><p>Form Turkish Ltd + TÜRSAB Group A, <b>or acquire a ready-licensed shell</b> to compress timelines.</p></div></div>
+      <div class="li"><div class="dot g"></div><div><h4>Scale the fleet to 14&ndash;16</h4><p>Add VIP ZFORCE units; deepen spares &amp; a second guide crew.</p></div></div>
+      <div class="li"><div class="dot a"></div><div><h4>Open Antalya (seasonal)</h4><p>Redeploy/expand into the coast for summer volume — dealer belt makes logistics easy.</p></div></div>
+      <div class="li"><div class="dot g"></div><div><h4>Shift channel mix to direct</h4><p>Cut OTA dependence; build repeat + hotel-DMC pipeline to lift margin toward Bull.</p></div></div>
+    </div>
+  </div>
+
+  <h3 class="block"><span class="bar2"></span>What to get — fleet shopping list (Phase 0)</h3>
+  <div class="tbl-wrap"><div class="tbl-scroll">
+  <table>
+    <thead><tr><th>Role</th><th>Unit</th><th class="num">Qty</th><th>Why</th><th class="num">Est. each (AED)</th></tr></thead>
+    <tbody>
+      <tr><td class="brand">Workhorse</td><td>CFMOTO CFORCE 450L EPS</td><td class="num">8</td><td class="model">Cheap, in-country, durable, T3-friendly. The backbone.</td><td class="num">~44,600</td></tr>
+      <tr><td class="brand">Lead / heavier guests</td><td>CFMOTO CFORCE 625 Touring</td><td class="num">2</td><td class="model">More torque for guide-lead + tandem capability.</td><td class="num">~55,800</td></tr>
+      <tr><td class="brand">VIP tier</td><td>CFMOTO ZFORCE 1000 Sport R</td><td class="num">2</td><td class="model">Sport SxS for the +40–60% private/VIP product.</td><td class="num">~73,300</td></tr>
+      <tr><td class="brand">Spare / safety</td><td>CFORCE 450L (reserve)</td><td class="num">2</td><td class="model">Downtime cover — keeps utilisation up.</td><td class="num">~44,600</td></tr>
+      <tr style="background:rgba(58,240,180,.06)"><td class="brand">—</td><td class="brand">Fleet subtotal (14 units)</td><td class="num">14</td><td class="model">Buy new via UMA, or mix in used to cut ~30–40%.</td><td class="num"><b>~AED 715k</b></td></tr>
+    </tbody>
+  </table>
+  </div></div>
+  <p class="note">Prices: CFMOTO ZFORCE = confirmed TR list; CFORCE 450L/625 = estimated TR (Tab 03). A used-heavy fleet via arabam/sahibinden can cut capex materially — there are 36+ used 450L EPS and 37+ used 625 Touring listed.</p>
+
+  <h3 class="block"><span class="bar2"></span>What to have — team &amp; kit</h3>
+  <div class="grid g2">
+    <div class="card">
+      <div class="k">People</div>
+      <div class="li"><div class="dot"></div><div><h4>Local host-DMC partner</h4><p>Provides TÜRSAB cover, permits, hotel-pickup network, local fixer.</p></div></div>
+      <div class="li"><div class="dot"></div><div><h4>Operations lead (BRAT)</h4><p>Your person on the ground owning SOPs, safety, quality — the BRAT standard.</p></div></div>
+      <div class="li"><div class="dot"></div><div><h4>2–3 certified guides</h4><p>Turkish + English/Russian/German. Phase 1: licensed agency manager (Seyahat Acentesi Müdürü).</p></div></div>
+      <div class="li"><div class="dot"></div><div><h4>Mechanic / fleet tech</h4><p>Keeps utilisation high; sources spares via UMA / İstanbul ATV.</p></div></div>
+    </div>
+    <div class="card cyan">
+      <div class="k">Kit &amp; systems</div>
+      <div class="li"><div class="dot c"></div><div><h4>Safety stack</h4><p>Helmets, comms, first-aid, recovery gear, GPS/telematics (Segway-style T-BOX where available). Drives the BRAT safety story.</p></div></div>
+      <div class="li"><div class="dot c"></div><div><h4>Spares &amp; consumables</h4><p>Tyres, belts, filters, fuel logistics — budget ~AED 80k initial.</p></div></div>
+      <div class="li"><div class="dot c"></div><div><h4>Practice park + briefing area</h4><p>Novice test-drive gating = safety + conversion funnel (Quad Maniac model).</p></div></div>
+      <div class="li"><div class="dot c"></div><div><h4>Booking stack</h4><p>WhatsApp direct + Viator/GetYourGuide listings; route to direct over time.</p></div></div>
+    </div>
+  </div>
+
+  <h3 class="block"><span class="bar2"></span>Go / No-Go — KPI gates before Phase 1</h3>
+  <div class="tbl-wrap"><div class="tbl-scroll">
+  <table>
+    <thead><tr><th>KPI</th><th>Proceed (green)</th><th>Watch (amber)</th><th>Stop (red)</th></tr></thead>
+    <tbody>
+      <tr><td class="brand">Seat utilisation</td><td><span class="av av-stock">≥ 70%</span></td><td><span class="av av-ltd">55–70%</span></td><td><span class="av av-order">&lt; 55%</span></td></tr>
+      <tr><td class="brand">EBITDA margin (net)</td><td><span class="av av-stock">≥ 25%</span></td><td><span class="av av-ltd">10–25%</span></td><td><span class="av av-order">&lt; 10%</span></td></tr>
+      <tr><td class="brand">Safety incidents</td><td><span class="av av-stock">Zero serious</span></td><td><span class="av av-ltd">Minor only</span></td><td><span class="av av-order">Any serious</span></td></tr>
+      <tr><td class="brand">Direct vs OTA mix</td><td><span class="av av-stock">≥ 40% direct</span></td><td><span class="av av-ltd">20–40%</span></td><td><span class="av av-order">&lt; 20%</span></td></tr>
+      <tr><td class="brand">Payback trajectory</td><td><span class="av av-stock">≤ 3 yrs</span></td><td><span class="av av-ltd">3–5 yrs</span></td><td><span class="av av-order">&gt; 5 yrs</span></td></tr>
+    </tbody>
+  </table>
+  </div></div>
+
+  <h3 class="block"><span class="bar2"></span>How to stop — the exit / wind-down</h3>
+  <div class="card amber">
+    <div class="k">Designed to be reversible</div>
+    <div class="li"><div class="dot a"></div><div><h4>Resell the fleet fast</h4><p>The Turkish used market is liquid (~755 live ATV/UTV listings) — recover a large share of fleet capex in weeks via arabam/sahibinden.</p></div></div>
+    <div class="li"><div class="dot a"></div><div><h4>Exit the host agreement at season-end</h4><p>Asset-light host model means no TÜRSAB entity to unwind in Phase 0 — minimal sunk cost or legal tail.</p></div></div>
+    <div class="li"><div class="dot a"></div><div><h4>Kill criteria</h4><p>If any red KPI persists through a peak block, stop before Phase 1 capital goes in. The whole structure is built so a "no" is cheap.</p></div></div>
+  </div>
+  <p class="note">This is an analytical recommendation synthesised from Tabs 01–12. Figures are planning estimates; validate fleet quotes (İstanbul ATV / UMA) and licensing costs (Turkish tourism lawyer) before committing capital.</p>
 </section>
 
 </main>
@@ -916,7 +1016,51 @@ function calc(){
   const el=document.getElementById(id); if(el) el.addEventListener('input',calc);
 });
 
-renderTable(); updateTourPrices(); renderBands(); renderSites(); calc();
+/* SCENARIOS */
+const SCEN={
+  base:{fleet:12,vcost:45000,setup:90000,ticket:180,tpd:3,days:210,util:70,guides:4,gwage:3800,fuelm:900,oh:8000,ota:20},
+  bull:{fleet:16,vcost:48000,setup:100000,ticket:240,tpd:3.5,days:320,util:80,guides:6,gwage:4200,fuelm:1000,oh:11000,ota:12},
+  bear:{fleet:10,vcost:50000,setup:110000,ticket:150,tpd:2.5,days:170,util:55,guides:4,gwage:4000,fuelm:1100,oh:9000,ota:28}
+};
+function computeScen(p){
+  const capex=p.fleet*p.vcost+p.setup;
+  const gross=p.fleet*p.tpd*p.days*p.ticket*(p.util/100);
+  const net=gross*(1-p.ota/100);
+  const opex=p.guides*p.gwage*12+p.fleet*p.fuelm*12+p.oh*12;
+  const ebitda=net-opex;
+  const margin=net>0?Math.round(ebitda/net*100):0;
+  const payback=ebitda>0?capex/ebitda:null;
+  const perRiderNet=p.ticket*(1-p.ota/100);
+  const annualFixed=opex+capex/5;
+  const be=perRiderNet>0?Math.ceil(annualFixed/(perRiderNet*p.days)):null;
+  return {capex,net,opex,ebitda,margin,payback,be};
+}
+function renderScen(){
+  const body=document.getElementById('scenBody'); if(!body)return;
+  const keys=['base','bull','bear']; const M={}; keys.forEach(k=>M[k]=computeScen(SCEN[k]));
+  function row(label,fn,hl){ return '<tr'+(hl?' style="background:rgba(255,40,0,.06)"':'')+'><td class="brand">'+label+'</td>'+keys.map(k=>'<td class="num">'+fn(SCEN[k],M[k])+'</td>').join('')+'</tr>'; }
+  body.innerHTML=
+    row('Fleet · season',(p)=>p.fleet+' · '+p.days+'d')+
+    row('Ticket · util',(p)=>'AED '+p.ticket+' · '+p.util+'%')+
+    row('OTA commission',(p)=>p.ota+'%')+
+    row('Total capex',(p,m)=>aedFmt(m.capex))+
+    row('Annual net revenue',(p,m)=>aedFmt(m.net))+
+    row('Annual opex',(p,m)=>aedFmt(m.opex))+
+    row('EBITDA / yr',(p,m)=>'<b>'+aedFmt(m.ebitda)+'</b>',true)+
+    row('EBITDA margin',(p,m)=>m.margin+'%')+
+    row('Payback',(p,m)=>m.payback?m.payback.toFixed(1)+' yrs':'—')+
+    row('Break-even riders/day',(p,m)=>m.be||'—');
+}
+document.getElementById('scenLoad').addEventListener('click',e=>{
+  const btn=e.target.closest('button'); if(!btn)return;
+  const p=SCEN[btn.dataset.sc];
+  const map={c_fleet:'fleet',c_vcost:'vcost',c_setup:'setup',c_ticket:'ticket',c_tpd:'tpd',c_days:'days',c_util:'util',c_guides:'guides',c_gwage:'gwage',c_fuelm:'fuelm',c_oh:'oh',c_ota:'ota'};
+  Object.keys(map).forEach(id=>{const el=document.getElementById(id); if(el) el.value=p[map[id]];});
+  calc();
+  document.getElementById('econOut').scrollIntoView({behavior:'smooth',block:'center'});
+});
+
+renderTable(); updateTourPrices(); renderBands(); renderSites(); calc(); renderScen();
 </script>
 </body>
 </html>
