@@ -165,6 +165,12 @@ h3.block .bar2{display:inline-block;width:28px;height:3px;background:var(--red);
 .swot li::before{content:"▸";position:absolute;left:0;color:var(--red)}
 .swot.s{border-top:2px solid var(--green)} .swot.w{border-top:2px solid var(--red)}
 .swot.o{border-top:2px solid var(--cyan)} .swot.t{border-top:2px solid var(--amber)}
+.scout-card{border:1px solid var(--line);border-radius:10px;padding:16px;background:var(--panel)}
+.scout-card h4{font-family:'Saira Condensed';font-weight:800;font-size:19px;text-transform:uppercase;margin-bottom:3px;letter-spacing:.01em}
+.scout-card .coord{font-family:'JetBrains Mono';font-size:11px;color:var(--cyan);margin-bottom:6px}
+.scout-card .rw{display:flex;gap:10px;padding:7px 0;border-top:1px solid var(--line);font-size:12.5px;line-height:1.45}
+.scout-card .rw .lab{flex:0 0 86px;color:var(--muted);font-family:'JetBrains Mono';font-size:10px;text-transform:uppercase;letter-spacing:.03em;padding-top:2px}
+.scout-card .rw .val{flex:1;color:var(--txt)}
 /* engine-size bands */
 .band-panel{background:linear-gradient(160deg,var(--panel),var(--bg2));border:1px solid var(--line);border-radius:10px;margin-bottom:20px;overflow:hidden}
 .band-panel::before{content:"";display:block;height:3px;background:linear-gradient(90deg,var(--red),transparent 70%)}
@@ -228,6 +234,7 @@ a:hover{text-decoration:underline}
     <button data-tab="econ"><span class="n">11</span> Unit Economics</button>
     <button data-tab="risk"><span class="n">12</span> Competition &amp; Risk</button>
     <button data-tab="play2"><span class="n">13</span> The Play</button>
+    <button data-tab="scout"><span class="n">14</span> Scouting</button>
   </nav>
 </header>
 
@@ -735,6 +742,113 @@ a:hover{text-decoration:underline}
     <div class="li"><div class="dot a"></div><div><h4>Kill criteria</h4><p>If any red KPI persists through a peak block, stop before Phase 1 capital goes in. The whole structure is built so a "no" is cheap.</p></div></div>
   </div>
   <p class="note">This is an analytical recommendation synthesised from Tabs 01–12. Figures are planning estimates; validate fleet quotes (İstanbul ATV / UMA) and licensing costs (Turkish tourism lawyer) before committing capital.</p>
+</section>
+
+<!-- 14 SCOUTING -->
+<section class="tab" id="scout">
+  <div class="sect-h"><span class="id">14 //</span><h2>Scouting</h2><div class="rule"></div></div>
+  <p class="lead">Two separate things. <b>Part A</b> = candidate <b>base sites we could set up on</b> — each within a <b>max 1-hour drive of a major hotel source</b> — with the land, forestry, permit and infrastructure reality for each. <b>Part B</b> = which of the <b>existing operators</b> already sit inside that 1-hour hotel radius. Coordinates are drop-in for Google Maps.</p>
+
+  <h3 class="block"><span class="bar2"></span>Part A — Candidate base sites (≤ 1 hr from major hotels)</h3>
+  <div class="grid g2">
+
+    <div class="scout-card" style="border-top:2px solid var(--green)">
+      <h4>Cappadocia — Göreme / Çavuşin valley fringe</h4>
+      <div class="coord">38.6512, 34.8470 &nbsp;·&nbsp; Nevşehir</div>
+      <div class="rw"><div class="lab">Hotels ≤1h</div><div class="val">Göreme 0–5m · Çavuşin 7m · Uçhisar 10m · Ortahisar 15m · Avanos 20m · Ürgüp 20m · Nevşehir 30m (45+ cave hotels)</div></div>
+      <div class="rw"><div class="lab">Terrain</div><div class="val">Volcanic tuff valleys, fairy chimneys, dirt trails. Iconic; year-round incl. winter snow.</div></div>
+      <div class="rw"><div class="lab">Land / forestry</div><div class="val">NOT forest land — protected cultural landscape under the <b>Cappadocia Area Directorate</b>; UNESCO site; national-park status removed 2019.</div></div>
+      <div class="rw"><div class="lab">Permits</div><div class="val"><span class="av av-order">QUOTA FULL</span> 665-vehicle cap. Approved routes only, max 8/convoy, certified leader, no under-10, GPS-tracked, fines to ₺1.39M. + TÜRSAB Group A + T3 + insurance. <b>Entry only by acquiring/partnering a quota-holding agency.</b></div></div>
+      <div class="rw"><div class="lab">Infra</div><div class="val">★★★★★ mature tourism town; fuel, mechanics, dense hotels; Nevşehir airport 40m / Kayseri 1h; CFMOTO-UMA supply regionally.</div></div>
+      <div class="rw"><div class="lab">Fit</div><div class="val"><b>ANCHOR</b> — best geography + only year-round option. Host/quota entry mandatory.</div></div>
+    </div>
+
+    <div class="scout-card" style="border-top:2px solid var(--amber)">
+      <h4>Antalya — Belek / Aksu pine forest</h4>
+      <div class="coord">37.0100, 30.8180 &nbsp;·&nbsp; Antalya</div>
+      <div class="rw"><div class="lab">Hotels ≤1h</div><div class="val">Antalya airport 10–20m · Kadriye 15m · Serik 15m · Belek 20m · Kundu 25m · Lara 30m (5-star belt — highest spend)</div></div>
+      <div class="rw"><div class="lab">Terrain</div><div class="val">Flat-to-rolling pine forest, sandy/forest tracks. Easy logistics.</div></div>
+      <div class="rw"><div class="lab">Land / forestry</div><div class="val">State <b>pine forest → OGM (Forestry) lease/permit</b> required. Köprülü Canyon NP to the north — route outside park core.</div></div>
+      <div class="rw"><div class="lab">Permits</div><div class="val">OGM forest permit + <b>Antalya Valiliği / İl Turizm Müd.</b> sportive-activity permit + TÜRSAB Group A + belediye premises + T3/insurance.</div></div>
+      <div class="rw"><div class="lab">Infra</div><div class="val">★★★★★ airport-adjacent, premium hotel density, dealer access.</div></div>
+      <div class="rw"><div class="lab">Fit</div><div class="val">Best Antalya sub-zone for <b>premium/VIP</b> + Phase-2 volume.</div></div>
+    </div>
+
+    <div class="scout-card">
+      <h4>Antalya — Kemer (Beldibi / Göynük foothills)</h4>
+      <div class="coord">36.6790, 30.5585 &nbsp;·&nbsp; Antalya</div>
+      <div class="rw"><div class="lab">Hotels ≤1h</div><div class="val">Göynük 5m · Beldibi 10m · Kuzdere 15m · Kemer 15m · Çamyuva 15m · Tekirova 25m · Antalya centre 45m</div></div>
+      <div class="rw"><div class="lab">Terrain</div><div class="val">Taurus pine forest, canyons, mountain streams, lake stops — most scenic Antalya option.</div></div>
+      <div class="rw"><div class="lab">Land / forestry</div><div class="val">Taurus <b>forest → OGM permit</b>; Olympos-Beydağları NP margins — avoid park core.</div></div>
+      <div class="rw"><div class="lab">Permits</div><div class="val">OGM + Antalya Valiliği sportive permit + TÜRSAB Group A + belediye + T3/insurance.</div></div>
+      <div class="rw"><div class="lab">Infra</div><div class="val">★★★★ resort infra, fuel, forest access roads; Antalya airport ~50m.</div></div>
+      <div class="rw"><div class="lab">Fit</div><div class="val">Strong — established quad demand, scenic premium routes.</div></div>
+    </div>
+
+    <div class="scout-card">
+      <h4>Antalya — Side / Manavgat foothills</h4>
+      <div class="coord">36.8450, 31.4970 &nbsp;·&nbsp; Antalya</div>
+      <div class="rw"><div class="lab">Hotels ≤1h</div><div class="val">Manavgat 10m · Evrenseki 15m · Çolaklı 20m · Kumköy 20m · Side 25m · Alanya ~50m</div></div>
+      <div class="rw"><div class="lab">Terrain</div><div class="val">Taurus foothills, Green Canyon / Köprülü river country. Mud + water features.</div></div>
+      <div class="rw"><div class="lab">Land / forestry</div><div class="val"><b>OGM forest permit</b>; Köprülü Canyon NP nearby (rafting hub) — route must stay outside park.</div></div>
+      <div class="rw"><div class="lab">Permits</div><div class="val">OGM + Antalya Valiliği + TÜRSAB Group A + belediye + T3/insurance.</div></div>
+      <div class="rw"><div class="lab">Infra</div><div class="val">★★★★ very dense resort base; fuel; airport ~45m.</div></div>
+      <div class="rw"><div class="lab">Fit</div><div class="val">High-volume seasonal — biggest raw bed-base on the east coast.</div></div>
+    </div>
+
+    <div class="scout-card">
+      <h4>Bodrum — Çamarası / Mazı interior</h4>
+      <div class="coord">37.0858, 27.6292 &nbsp;·&nbsp; Muğla</div>
+      <div class="rw"><div class="lab">Hotels ≤1h</div><div class="val">Torba 10m · Bodrum 15m · Ortakent 15m · Gümbet 20m · Bitez 20m · Turgutreis 30m · Yalıkavak 30m · airport 30m</div></div>
+      <div class="rw"><div class="lab">Terrain</div><div class="val">Peninsula scrub-pine hills, dirt tracks, sea-view ridges.</div></div>
+      <div class="rw"><div class="lab">Land / forestry</div><div class="val"><b>OGM forest permit</b> + heavy <b>Muğla coastal SİT (conservation) zoning</b> — route approval is the sensitive part.</div></div>
+      <div class="rw"><div class="lab">Permits</div><div class="val">OGM + Muğla Valiliği / İl Turizm + TÜRSAB Group A + belediye + T3/insurance.</div></div>
+      <div class="rw"><div class="lab">Infra</div><div class="val">★★★ moderate, seasonal supply; Milas-Bodrum airport 30m.</div></div>
+      <div class="rw"><div class="lab">Fit</div><div class="val">Niche — compact catchment but summer-only; smallest demand pool.</div></div>
+    </div>
+
+    <div class="scout-card" style="border-top:2px solid var(--red)">
+      <h4>Istanbul — Şile / Ağva forest</h4>
+      <div class="coord">41.1300, 29.5900 &nbsp;·&nbsp; İstanbul</div>
+      <div class="rw"><div class="lab">Hotels ≤1h</div><div class="val">Şile town 10m · Asian-side suburbs 55–75m · <b style="color:var(--red)">Sultanahmet / Taksim foreign-tourist core 75–90m ✗</b> · Sabiha Gökçen 60m</div></div>
+      <div class="rw"><div class="lab">Terrain</div><div class="val">Black Sea forest, reservoir tracks. Good trail, wrong catchment.</div></div>
+      <div class="rw"><div class="lab">Land / forestry</div><div class="val"><b>OGM forest permit</b> + strict <b>İstanbul watershed protection</b> (Ömerli / Darlık reservoirs).</div></div>
+      <div class="rw"><div class="lab">Permits</div><div class="val">OGM + İstanbul Valiliği + TÜRSAB Group A + belediye + T3/insurance.</div></div>
+      <div class="rw"><div class="lab">Infra</div><div class="val">★★★ access OK but far from the foreign-tourist hotel mass.</div></div>
+      <div class="rw"><div class="lab">Fit</div><div class="val"><span class="av av-order">FAILS 1-HR TEST</span> from the foreign-tourist core. Domestic weekender market only.</div></div>
+    </div>
+
+  </div>
+  <p class="note">Permit chain everywhere: <b>(1)</b> TÜRSAB Group A travel-agency licence → <b>(2)</b> land rights for the trail (Cappadocia = Area Directorate quota; everywhere else = OGM forestry lease/permit) → <b>(3)</b> Governorate + Provincial Tourism Directorate sportive-activity permit → <b>(4)</b> municipality premises → <b>(5)</b> T3 vehicle registration + insurance. Drive times are typical estimates; confirm with a local fixer.</p>
+
+  <h3 class="block"><span class="bar2"></span>Part B — Existing operators within 1 hr of major hotels</h3>
+  <div class="tbl-wrap"><div class="tbl-scroll">
+  <table>
+    <thead><tr><th>Operator</th><th>Zone</th><th>Coordinates</th><th>Nearest hotel source</th><th class="num">~Drive</th><th>≤1 hr?</th><th class="num">Rating</th></tr></thead>
+    <tbody>
+      <tr><td class="brand">Cappadocia Adventure</td><td>Göreme</td><td class="model">38.6431, 34.8379</td><td class="model">Göreme hotels</td><td class="num">5m</td><td><span class="av av-stock">YES</span></td><td class="num">4.7 (2089)</td></tr>
+      <tr><td class="brand">ATV Turları Göreme</td><td>Göreme</td><td class="model">38.6514, 34.8361</td><td class="model">Göreme hotels</td><td class="num">5m</td><td><span class="av av-stock">YES</span></td><td class="num">4.8 (808)</td></tr>
+      <tr><td class="brand">Cappadocia Atv Tour</td><td>Göreme</td><td class="model">38.6411, 34.8311</td><td class="model">Göreme hotels</td><td class="num">5m</td><td><span class="av av-stock">YES</span></td><td class="num">4.9 (17)</td></tr>
+      <tr><td class="brand">Göreme Rental ATV</td><td>Göreme</td><td class="model">38.6460, 34.8247</td><td class="model">Göreme hotels</td><td class="num">5m</td><td><span class="av av-stock">YES</span></td><td class="num">4.6 (240)</td></tr>
+      <tr><td class="brand">Kapadokya ATV Turu</td><td>Göreme</td><td class="model">38.6440, 34.8317</td><td class="model">Göreme hotels</td><td class="num">5m</td><td><span class="av av-stock">YES</span></td><td class="num">4.7 (98)</td></tr>
+      <tr><td class="brand">Stone White Travel</td><td>Göreme</td><td class="model">38.6486, 34.8340</td><td class="model">Göreme hotels</td><td class="num">5m</td><td><span class="av av-stock">YES</span></td><td class="num">4.0 (68)</td></tr>
+      <tr><td class="brand">Antalya Buggy-Quad Safari</td><td>Belek/Aksu</td><td class="model">37.0099, 30.8177</td><td class="model">Belek / Lara belt</td><td class="num">20–30m</td><td><span class="av av-stock">YES</span></td><td class="num">4.2 (648)</td></tr>
+      <tr><td class="brand">Likya Quad Safari</td><td>Kemer</td><td class="model">36.6805, 30.5573</td><td class="model">Kemer hotels</td><td class="num">15m</td><td><span class="av av-stock">YES</span></td><td class="num">4.7 (362)</td></tr>
+      <tr><td class="brand">Göynük Quad Safari</td><td>Kemer</td><td class="model">36.6744, 30.5590</td><td class="model">Kemer hotels</td><td class="num">15m</td><td><span class="av av-stock">YES</span></td><td class="num">3.3 (78)</td></tr>
+      <tr><td class="brand">Paradise Quad Safari</td><td>Kemer</td><td class="model">36.5641, 30.5255</td><td class="model">Kemer hotels</td><td class="num">25m</td><td><span class="av av-stock">YES</span></td><td class="num">4.5 (114)</td></tr>
+      <tr><td class="brand">Cat's Quad & Buggy</td><td>Manavgat</td><td class="model">36.8448, 31.4965</td><td class="model">Side / Kumköy</td><td class="num">25–30m</td><td><span class="av av-stock">YES</span></td><td class="num">3.6 (267)</td></tr>
+      <tr><td class="brand">Side Tours Antalya</td><td>Side</td><td class="model">36.7742, 31.4039</td><td class="model">Side hotels</td><td class="num">5m</td><td><span class="av av-stock">YES</span></td><td class="num">4.8 (171)</td></tr>
+      <tr><td class="brand">Bodrum Atv Buggy Safari</td><td>Bodrum</td><td class="model">37.0858, 27.6292</td><td class="model">Bodrum / Torba</td><td class="num">15m</td><td><span class="av av-stock">YES</span></td><td class="num">4.4 (330)</td></tr>
+      <tr><td class="brand">Bodrum Quad ATV Rent</td><td>Gümbet</td><td class="model">37.0348, 27.4019</td><td class="model">Gümbet / Bitez</td><td class="num">0–5m</td><td><span class="av av-stock">YES</span></td><td class="num">5.0 (24)</td></tr>
+      <tr><td class="brand">Safari Life Istanbul</td><td>Şile</td><td class="model">41.1664, 29.5623</td><td class="model">Foreign-tourist core</td><td class="num">75–90m</td><td><span class="av av-order">NO</span></td><td class="num">4.4 (152)</td></tr>
+      <tr><td class="brand">İstanbul ATV Şile</td><td>Şile</td><td class="model">41.1641, 29.5836</td><td class="model">Foreign-tourist core</td><td class="num">75–90m</td><td><span class="av av-order">NO</span></td><td class="num">4.7 (67)</td></tr>
+      <tr><td class="brand">Şile Quad Safari</td><td>Şile</td><td class="model">41.1182, 29.5933</td><td class="model">Foreign-tourist core</td><td class="num">80–95m</td><td><span class="av av-order">NO</span></td><td class="num">4.6 (79)</td></tr>
+      <tr><td class="brand">Ağva ATV Safari</td><td>Ağva</td><td class="model">41.1273, 29.8538</td><td class="model">Foreign-tourist core</td><td class="num">95m+</td><td><span class="av av-order">NO</span></td><td class="num">5.0 (55)</td></tr>
+      <tr><td class="brand">Ağva atv safari</td><td>Ağva</td><td class="model">41.1358, 29.8410</td><td class="model">Foreign-tourist core</td><td class="num">95m+</td><td><span class="av av-order">NO</span></td><td class="num">4.5 (25)</td></tr>
+    </tbody>
+  </table>
+  </div></div>
+  <p class="note">"≤1 hr?" is measured from the area's <b>major foreign-tourist hotel source</b>. All Cappadocia, Antalya and Bodrum operators clear it comfortably. Every Istanbul (Şile/Ağva) operator <b>fails</b> from the Sultanahmet/Taksim core — they serve domestic Asian-side weekenders, confirming Istanbul is not a viable tourist base.</p>
 </section>
 
 </main>
