@@ -1,0 +1,736 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>TURKEY OFF-ROAD VEHICLE INTELLIGENCE // BRAT</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Saira+Condensed:wght@500;600;700;800;900&family=Archivo:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
+<style>
+:root{
+  --red:#FF2800; --red-dim:#c41f00; --red-glow:rgba(255,40,0,.55);
+  --cyan:#00e0ff; --amber:#ffb000; --green:#3af0b4;
+  --bg:#080809; --bg2:#0e0f12; --panel:#141519; --panel2:#1b1d22;
+  --line:#262931; --txt:#f3f4f6; --muted:#8b909c; --muted2:#5b606b;
+}
+*{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{
+  background:var(--bg); color:var(--txt);
+  font-family:'Archivo',sans-serif; font-size:15px; line-height:1.55;
+  background-image:
+    radial-gradient(circle at 15% -10%, rgba(255,40,0,.10), transparent 45%),
+    radial-gradient(circle at 90% 0%, rgba(0,224,255,.05), transparent 40%),
+    repeating-linear-gradient(0deg, rgba(255,255,255,.012) 0 1px, transparent 1px 44px),
+    repeating-linear-gradient(90deg, rgba(255,255,255,.012) 0 1px, transparent 1px 44px);
+  min-height:100vh;
+}
+::selection{background:var(--red); color:#fff}
+.mono{font-family:'JetBrains Mono',monospace}
+.disp{font-family:'Saira Condensed',sans-serif; text-transform:uppercase; letter-spacing:.02em}
+
+/* ---------- HEADER ---------- */
+header{
+  position:sticky; top:0; z-index:50;
+  background:linear-gradient(180deg, rgba(8,8,9,.97), rgba(8,8,9,.86));
+  backdrop-filter:blur(10px); border-bottom:1px solid var(--line);
+}
+.bar{height:5px;background:linear-gradient(90deg,var(--red),var(--red) 60%,#000);box-shadow:0 0 18px var(--red-glow)}
+.head-in{max-width:1320px;margin:0 auto;padding:14px 22px;display:flex;align-items:center;gap:18px;flex-wrap:wrap}
+.logo{display:flex;align-items:center;gap:12px}
+.logo .mark{
+  width:42px;height:42px;flex:none;background:var(--red);
+  clip-path:polygon(0 0,100% 0,100% 70%,70% 100%,0 100%);
+  display:flex;align-items:center;justify-content:center;
+  font-family:'Saira Condensed';font-weight:900;font-size:22px;color:#fff;
+  box-shadow:0 0 22px var(--red-glow);
+}
+.logo h1{font-family:'Saira Condensed';font-weight:900;font-size:23px;line-height:.95;letter-spacing:.01em}
+.logo h1 span{color:var(--red)}
+.logo .sub{font-size:10.5px;letter-spacing:.32em;color:var(--muted);text-transform:uppercase}
+.fx{margin-left:auto;display:flex;gap:10px;flex-wrap:wrap;align-items:center}
+.fx-chip{
+  border:1px solid var(--line);background:var(--panel);border-radius:5px;
+  padding:6px 11px;font-family:'JetBrains Mono';font-size:11px;color:var(--muted);white-space:nowrap;
+}
+.fx-chip b{color:var(--cyan);font-weight:700}
+.fx-chip.live::before{content:"●";color:var(--green);margin-right:6px;animation:blink 1.6s infinite}
+@keyframes blink{50%{opacity:.25}}
+.toggle{display:flex;border:1px solid var(--line);border-radius:6px;overflow:hidden}
+.toggle button{
+  background:var(--panel);border:none;color:var(--muted);font-family:'JetBrains Mono';
+  font-weight:700;font-size:12px;padding:7px 14px;cursor:pointer;transition:.15s
+}
+.toggle button.on{background:var(--red);color:#fff;box-shadow:0 0 14px var(--red-glow)}
+
+/* ---------- NAV TABS ---------- */
+nav{max-width:1320px;margin:0 auto;padding:0 22px;display:flex;gap:4px;overflow-x:auto}
+nav button{
+  background:none;border:none;border-bottom:2px solid transparent;color:var(--muted);
+  font-family:'Saira Condensed';font-weight:700;font-size:15px;text-transform:uppercase;letter-spacing:.06em;
+  padding:13px 16px;cursor:pointer;white-space:nowrap;transition:.18s;display:flex;gap:8px;align-items:center
+}
+nav button .n{font-family:'JetBrains Mono';font-size:10px;color:var(--muted2)}
+nav button:hover{color:var(--txt)}
+nav button.on{color:#fff;border-bottom-color:var(--red);text-shadow:0 0 12px var(--red-glow)}
+nav button.on .n{color:var(--red)}
+
+/* ---------- LAYOUT ---------- */
+main{max-width:1320px;margin:0 auto;padding:30px 22px 80px}
+.tab{display:none;animation:fade .4s ease}
+.tab.on{display:block}
+@keyframes fade{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
+.sect-h{display:flex;align-items:baseline;gap:14px;margin:6px 0 22px}
+.sect-h .id{font-family:'JetBrains Mono';color:var(--red);font-size:13px;font-weight:700}
+.sect-h h2{font-family:'Saira Condensed';font-weight:800;font-size:30px;text-transform:uppercase;letter-spacing:.01em}
+.sect-h .rule{flex:1;height:1px;background:linear-gradient(90deg,var(--red),transparent)}
+.lead{color:var(--muted);max-width:880px;margin-bottom:26px;font-size:15px}
+.lead b{color:var(--txt)}
+
+/* cards */
+.grid{display:grid;gap:16px}
+.g4{grid-template-columns:repeat(4,1fr)}
+.g3{grid-template-columns:repeat(3,1fr)}
+.g2{grid-template-columns:repeat(2,1fr)}
+@media(max-width:1000px){.g4,.g3{grid-template-columns:repeat(2,1fr)}}
+@media(max-width:620px){.g4,.g3,.g2{grid-template-columns:1fr}}
+.card{
+  background:linear-gradient(160deg,var(--panel),var(--bg2));
+  border:1px solid var(--line);border-radius:9px;padding:20px;position:relative;overflow:hidden
+}
+.card::before{content:"";position:absolute;top:0;left:0;width:100%;height:2px;background:linear-gradient(90deg,var(--red),transparent)}
+.card.cyan::before{background:linear-gradient(90deg,var(--cyan),transparent)}
+.card.amber::before{background:linear-gradient(90deg,var(--amber),transparent)}
+.card.green::before{background:linear-gradient(90deg,var(--green),transparent)}
+.stat{font-family:'Saira Condensed';font-weight:900;font-size:40px;line-height:1;color:#fff}
+.stat.red{color:var(--red);text-shadow:0 0 20px var(--red-glow)}
+.stat.cyan{color:var(--cyan)} .stat.amber{color:var(--amber)} .stat.green{color:var(--green)}
+.stat small{font-size:18px;color:var(--muted)}
+.card .k{font-family:'JetBrains Mono';font-size:10.5px;letter-spacing:.18em;text-transform:uppercase;color:var(--muted);margin-bottom:12px}
+.card p{font-size:13px;color:var(--muted);margin-top:10px}
+.card p b{color:var(--txt)}
+
+/* table */
+.tbl-wrap{border:1px solid var(--line);border-radius:9px;overflow:hidden;background:var(--panel)}
+.tbl-scroll{overflow-x:auto}
+table{width:100%;border-collapse:collapse;font-size:13.5px;min-width:760px}
+thead th{
+  background:#101114;font-family:'Saira Condensed';font-weight:700;text-transform:uppercase;letter-spacing:.05em;
+  font-size:13px;color:var(--muted);text-align:left;padding:13px 14px;border-bottom:1px solid var(--line);
+  position:sticky;top:0;cursor:pointer;user-select:none;white-space:nowrap
+}
+thead th:hover{color:var(--txt)}
+thead th .ar{color:var(--red);font-size:10px}
+tbody td{padding:12px 14px;border-bottom:1px solid rgba(255,255,255,.045);vertical-align:middle}
+tbody tr:hover{background:rgba(255,40,0,.05)}
+tbody tr:last-child td{border-bottom:none}
+.brand{font-weight:700;color:#fff}
+.model{color:var(--muted)}
+.num{font-family:'JetBrains Mono';font-weight:500;text-align:right;white-space:nowrap}
+.price-main{font-family:'JetBrains Mono';font-weight:700;color:var(--cyan);white-space:nowrap}
+.price-sub{font-family:'JetBrains Mono';font-size:11px;color:var(--muted2);white-space:nowrap}
+.tag{display:inline-block;font-family:'JetBrains Mono';font-size:9.5px;font-weight:700;letter-spacing:.06em;
+  padding:2px 7px;border-radius:4px;text-transform:uppercase;white-space:nowrap}
+.t-list{background:rgba(58,240,180,.13);color:var(--green);border:1px solid rgba(58,240,180,.3)}
+.t-ref{background:rgba(255,176,0,.12);color:var(--amber);border:1px solid rgba(255,176,0,.3)}
+.t-quote{background:rgba(139,144,156,.12);color:var(--muted);border:1px solid var(--line)}
+.cls{font-family:'JetBrains Mono';font-size:10.5px;padding:3px 8px;border-radius:4px;white-space:nowrap;font-weight:500}
+.c-aut{background:rgba(0,224,255,.1);color:var(--cyan)}
+.c-asp{background:rgba(255,40,0,.12);color:#ff6a4d}
+.c-ssp{background:rgba(255,40,0,.18);color:#ff8064}
+.c-sut{background:rgba(255,176,0,.12);color:var(--amber)}
+.c-ent{background:rgba(58,240,180,.1);color:var(--green)}
+.fleet::after{content:"★ FLEET";font-family:'JetBrains Mono';font-size:8.5px;color:var(--amber);margin-left:7px;letter-spacing:.05em;vertical-align:middle}
+
+/* filter chips */
+.filters{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:16px}
+.filters button{
+  background:var(--panel);border:1px solid var(--line);color:var(--muted);
+  font-family:'JetBrains Mono';font-size:11.5px;font-weight:500;padding:7px 13px;border-radius:6px;cursor:pointer;transition:.15s
+}
+.filters button:hover{border-color:var(--red);color:var(--txt)}
+.filters button.on{background:var(--red);border-color:var(--red);color:#fff;box-shadow:0 0 12px var(--red-glow)}
+
+/* chart */
+.chart-box{background:var(--panel);border:1px solid var(--line);border-radius:9px;padding:22px;margin-bottom:18px}
+.chart-box h3{font-family:'Saira Condensed';font-weight:700;font-size:19px;text-transform:uppercase;margin-bottom:4px}
+.chart-box .ch-sub{font-size:12.5px;color:var(--muted);margin-bottom:18px}
+.canvas-h{position:relative;height:420px}
+.canvas-h.tall{height:560px}
+
+/* lists */
+.li{display:flex;gap:13px;padding:13px 0;border-bottom:1px solid rgba(255,255,255,.05)}
+.li:last-child{border:none}
+.li .dot{width:8px;height:8px;border-radius:50%;background:var(--red);flex:none;margin-top:7px;box-shadow:0 0 10px var(--red-glow)}
+.li .dot.c{background:var(--cyan);box-shadow:0 0 10px var(--cyan)}
+.li .dot.a{background:var(--amber);box-shadow:0 0 10px var(--amber)}
+.li .dot.g{background:var(--green);box-shadow:0 0 10px var(--green)}
+.li h4{font-size:14.5px;font-weight:700;color:#fff;margin-bottom:2px}
+.li p{font-size:13px;color:var(--muted)}
+.li p b{color:var(--txt)}
+
+.note{font-size:12px;color:var(--muted2);font-style:italic;margin-top:14px;line-height:1.5}
+.pill{display:inline-block;background:var(--panel2);border:1px solid var(--line);border-radius:20px;
+  padding:4px 12px;font-family:'JetBrains Mono';font-size:11px;color:var(--muted);margin:3px 4px 3px 0}
+.pill b{color:var(--cyan)}
+
+/* engine-size bands */
+.band-panel{background:linear-gradient(160deg,var(--panel),var(--bg2));border:1px solid var(--line);border-radius:10px;margin-bottom:20px;overflow:hidden}
+.band-panel::before{content:"";display:block;height:3px;background:linear-gradient(90deg,var(--red),transparent 70%)}
+.band-head{display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap;padding:15px 20px;border-bottom:1px solid var(--line);background:#101114}
+.band-head h3{font-family:'Saira Condensed';font-weight:800;font-size:25px;text-transform:uppercase;line-height:1}
+.band-tag{display:block;font-family:'JetBrains Mono';font-size:10px;letter-spacing:.16em;color:var(--red);text-transform:uppercase;margin-bottom:3px}
+.band-meta{font-family:'JetBrains Mono';font-size:12px;color:var(--muted);text-align:right}
+.band-meta b{color:var(--green)}
+.band-list{padding:4px 0}
+.brow{display:flex;align-items:center;gap:14px;padding:11px 20px;border-bottom:1px solid rgba(255,255,255,.04)}
+.brow:last-child{border:none}
+.brow:hover{background:rgba(255,40,0,.05)}
+.brow.best{background:rgba(58,240,180,.07);border-left:3px solid var(--green)}
+.brow .rk{font-family:'Saira Condensed';font-weight:900;font-size:23px;color:var(--muted2);width:40px;flex:none;text-align:center}
+.brow.best .rk{color:var(--green);text-shadow:0 0 12px rgba(58,240,180,.5)}
+.brow .bn{flex:1;min-width:0}
+.brow .bn .brand{font-weight:700;color:#fff}
+.brow .bn .model{color:var(--muted)}
+.bmeta{font-family:'JetBrains Mono';font-size:11px;color:var(--muted2);margin-top:4px;display:flex;gap:7px;align-items:center;flex-wrap:wrap}
+.valtag{font-family:'JetBrains Mono';font-size:9px;font-weight:700;color:var(--green);border:1px solid rgba(58,240,180,.4);background:rgba(58,240,180,.12);padding:2px 7px;border-radius:4px;letter-spacing:.06em;margin-left:6px}
+.bp{text-align:right;flex:none}
+footer{max-width:1320px;margin:0 auto;padding:26px 22px;border-top:1px solid var(--line);color:var(--muted2);font-size:11.5px}
+footer b{color:var(--muted)}
+.src{font-family:'JetBrains Mono';font-size:10.5px;line-height:1.8}
+a{color:var(--cyan);text-decoration:none}
+a:hover{text-decoration:underline}
+h3.block{font-family:'Saira Condensed';font-weight:800;text-transform:uppercase;font-size:21px;margin:30px 0 14px;letter-spacing:.01em}
+h3.block .bar2{display:inline-block;width:28px;height:3px;background:var(--red);vertical-align:middle;margin-right:10px;box-shadow:0 0 10px var(--red-glow)}
+</style>
+</head>
+<body>
+<header>
+  <div class="bar"></div>
+  <div class="head-in">
+    <div class="logo">
+      <div class="mark">B</div>
+      <div>
+        <h1>TURKEY OFF-ROAD<br><span>VEHICLE INTELLIGENCE</span></h1>
+        <div class="sub">Market &middot; Fleet &middot; Pricing Recon &nbsp;//&nbsp; BRAT Expansion Desk</div>
+      </div>
+    </div>
+    <div class="fx">
+      <span class="fx-chip live">DATA &middot; 08 JUN 2026</span>
+      <span class="fx-chip">USD/TRY <b>46.09</b></span>
+      <span class="fx-chip">1 AED ≈ <b>12.55 ₺</b></span>
+      <div class="toggle" id="fxToggle">
+        <button data-cur="AED" class="on">AED</button>
+        <button data-cur="TRY">₺ TRY</button>
+      </div>
+    </div>
+  </div>
+  <nav id="nav">
+    <button class="on" data-tab="market"><span class="n">01</span> Market</button>
+    <button data-tab="brands"><span class="n">02</span> Brands &amp; Dealers</button>
+    <button data-tab="specs"><span class="n">03</span> Vehicles &amp; Specs</button>
+    <button data-tab="price"><span class="n">04</span> Price &amp; Power</button>
+    <button data-tab="tours"><span class="n">05</span> Tour Operators</button>
+    <button data-tab="play"><span class="n">06</span> BRAT Playbook</button>
+    <button data-tab="bands"><span class="n">07</span> Engine Size &times; Value</button>
+  </nav>
+</header>
+
+<main>
+
+<!-- ============ 01 MARKET ============ -->
+<section class="tab on" id="market">
+  <div class="sect-h"><span class="id">01 //</span><h2>Market Snapshot</h2><div class="rule"></div></div>
+  <p class="lead">Turkey is one of the cheapest and most under-rated off-road tourism markets in the Mediterranean &mdash; high tourist volume, low ticket yield, and a vehicle fleet dominated by <b>Chinese value brands (CFMOTO, Hisun, Segway)</b> over premium American marques. The lira's slide means hardware is expensive to import but tours stay cheap in EUR terms. Everything below is dated <b>08 June 2026</b>.</p>
+
+  <div class="grid g4">
+    <div class="card"><div class="k">Dollar / Lira</div><div class="stat red">46.09<small> ₺</small></div><p>Lira down <b>~17%</b> over 12 months; managed depreciation. AED (pegged to USD @ 3.6725) buys <b>≈12.55 ₺</b>.</p></div>
+    <div class="card cyan"><div class="k">Half-Day Tour / Person</div><div class="stat cyan">€30&ndash;55</div><p>Shared ATV safari w/ hotel pickup. ≈ <b>AED 120&ndash;220</b>. Among the lowest in the Med.</p></div>
+    <div class="card amber"><div class="k">Full-Day ATV + Jeep</div><div class="stat amber">€55&ndash;90</div><p>With lunch. Private tours run <b>+40&ndash;60%</b>. Volume game, thin margin per head.</p></div>
+    <div class="card green"><div class="k">Dominant Fleet Tier</div><div class="stat green">400&ndash;600<small>cc</small></div><p>Value Chinese 4x4 utility quads (CFMOTO CFORCE, Hisun, TGB) are the rental workhorses.</p></div>
+  </div>
+
+  <h3 class="block"><span class="bar2"></span>Demand Geography &amp; Season</h3>
+  <div class="grid g2">
+    <div class="card">
+      <div class="k">Where the riders are</div>
+      <div class="li"><div class="dot"></div><div><h4>Cappadocia (Göreme)</h4><p>The marquee market &mdash; fairy chimneys, Love/Rose/Red valleys. Sunrise &amp; sunset runs. <b>Runs year-round, including snow</b> &mdash; the only true 12-month inland market.</p></div></div>
+      <div class="li"><div class="dot a"></div><div><h4>Antalya coast — Kemer, Side, Alanya, Belek</h4><p>Highest tourist throughput. Taurus Mountains backdrop, beach + forest trails, big package-tour feeder volume.</p></div></div>
+      <div class="li"><div class="dot c"></div><div><h4>Fethiye / Ölüdeniz &amp; Marmaris</h4><p>Forest + mountain trails, strong UK/EU package-holiday demand. Established quad-safari cluster.</p></div></div>
+      <div class="li"><div class="dot g"></div><div><h4>Kuşadası, Bodrum, Kaş/Kalkan, Didim</h4><p>Aegean resort belt — repeat, mid-volume coastal operators.</p></div></div>
+    </div>
+    <div class="card amber">
+      <div class="k">Operating calendar</div>
+      <div class="li"><div class="dot g"></div><div><h4>Apr&ndash;May &amp; Sep&ndash;early Oct = sweet spot</h4><p>24&ndash;30&deg;C, tolerable dust, peak quality conditions.</p></div></div>
+      <div class="li"><div class="dot a"></div><div><h4>Jun&ndash;Aug = hot, dusty, crowded</h4><p>Highest volume but punishing on machines &amp; guests. Early-morning / sunset slots dominate.</p></div></div>
+      <div class="li"><div class="dot"></div><div><h4>Nov&ndash;Mar = coastal operators mostly CLOSE</h4><p>Seasonality is the structural risk. Coastal fleets idle ~4&ndash;5 months. Cappadocia is the hedge.</p></div></div>
+      <div class="li"><div class="dot c"></div><div><h4>Rider rules</h4><p>Solo from <b>18</b> (16 w/ parental consent); tandem passengers from ~8 (some operators 6) on conservative routes.</p></div></div>
+    </div>
+  </div>
+  <p class="note">Source synthesis: quadatvtours.com Turkey market guide; Viator / GetYourGuide / Klook Cappadocia &amp; Antalya listings; TravelShop Turkey (Murti's Tour, MoT agency #5291). FX: TradingEconomics / Wise / exchange-rates.org, 8 Jun 2026.</p>
+</section>
+
+<!-- ============ 02 BRANDS & DEALERS ============ -->
+<section class="tab" id="brands">
+  <div class="sect-h"><span class="id">02 //</span><h2>Brands &amp; Distributors</h2><div class="rule"></div></div>
+  <p class="lead">The Turkish off-road market is structured around <b>single national distributors</b> per major brand, plus multi-brand dealers and a deep second-hand layer (arabam.com, sahibinden.com). One quirk that matters for you: CFMOTO and most 4x4 quads are <b>registered as tractors (Traktör T3 / T1)</b> in Turkey for tax/road-legal reasons &mdash; this affects ÖTV, plating and on-road use.</p>
+
+  <div class="tbl-wrap"><div class="tbl-scroll">
+  <table>
+    <thead><tr><th>Brand</th><th>Turkey Distributor</th><th>Origin</th><th>Pricing Visibility</th><th>Position</th></tr></thead>
+    <tbody>
+      <tr><td class="brand">CFMOTO</td><td>Uğur Motorlu Araçlar (UMA)</td><td>China</td><td><span class="tag t-list">Public ₺ list</span></td><td class="model">Volume leader. "Distributor of the Year" globally. Full ATV/UTV range.</td></tr>
+      <tr><td class="brand">GOES</td><td>Uğur Motorlu Araçlar (UMA)</td><td>China (CFMOTO stable)</td><td><span class="tag t-list">Public ₺ list</span></td><td class="model">Budget Terrox utility quads. Entry fleet tier.</td></tr>
+      <tr><td class="brand">Can-Am</td><td>BRP World Türkiye</td><td>Canada</td><td><span class="tag t-quote">Dealer quote</span></td><td class="model">Premium. Maverick / Outlander / Renegade / Traxter. Halo brand.</td></tr>
+      <tr><td class="brand">Polaris</td><td>Polaris Türkiye</td><td>USA</td><td><span class="tag t-quote">Dealer quote</span></td><td class="model">Premium. Sportsman / RZR / Ranger / General.</td></tr>
+      <tr><td class="brand">Segway Powersports</td><td>Kuba Motor</td><td>China (Ninebot)</td><td><span class="tag t-quote">Dealer quote</span></td><td class="model">Fast-rising tech-forward. Villain / UT10 / Snarler. T-BOX telematics standard.</td></tr>
+      <tr><td class="brand">Yamaha</td><td>Yamaha Motor Türkiye</td><td>Japan</td><td><span class="tag t-quote">Dealer quote</span></td><td class="model">Raptor / Grizzly / Kodiak / YXZ / Wolverine. Reliability benchmark.</td></tr>
+      <tr><td class="brand">Kawasaki</td><td>Kawasaki Türkiye</td><td>Japan</td><td><span class="tag t-quote">Dealer quote</span></td><td class="model">Brute Force / Teryx KRX / Mule.</td></tr>
+      <tr><td class="brand">Kymco</td><td>Kymco Türkiye</td><td>Taiwan</td><td><span class="tag t-ref">Public list (MXU)</span></td><td class="model">MXU 300i / 550i EPS utility quads. List updated 02 Jun 2026.</td></tr>
+      <tr><td class="brand">Hisun</td><td>Regional importers</td><td>China</td><td><span class="tag t-quote">Dealer quote</span></td><td class="model">Aggressive-value Sector / Forge / Tactic. Strong fleet/rental fit.</td></tr>
+      <tr><td class="brand">TGB</td><td>Regional importers</td><td>Taiwan</td><td><span class="tag t-quote">Dealer quote</span></td><td class="model">Blade quads — a classic Mediterranean rental-fleet staple.</td></tr>
+      <tr><td class="brand">Linhai / Kayo / Loncin</td><td>Various</td><td>China</td><td><span class="tag t-quote">Dealer quote</span></td><td class="model">Deep-budget tier on used market (arabam/sahibinden).</td></tr>
+    </tbody>
+  </table>
+  </div></div>
+
+  <h3 class="block"><span class="bar2"></span>Where to actually buy</h3>
+  <div class="grid g3">
+    <div class="card cyan"><div class="k">Multi-brand hub</div><h4 style="font-size:17px">İstanbul ATV</h4><p>One-stop dealer carrying <b>CFMOTO, Polaris, Can-Am, Kawasaki, Mondial, TVS</b> + parts, cabins, tyres, accessories. Single relationship for a mixed fleet.</p></div>
+    <div class="card"><div class="k">New — official ₺ list</div><h4 style="font-size:17px">cfmoto.com.tr</h4><p>Only major brand publishing transparent retail prices. Your pricing anchor for the whole market.</p></div>
+    <div class="card amber"><div class="k">Used / fleet sourcing</div><h4 style="font-size:17px">arabam.com &middot; sahibinden.com</h4><p>800+ ATV/UTV listings live. Best route to buy ex-fleet machines cheap or benchmark resale residuals.</p></div>
+  </div>
+  <p class="note">Distributor names verified from official brand .tr sites and dealer listings, Jun 2026. "Dealer quote" = brand sells through dealers without published MSRP in Turkey; use Tab 04 reference pricing + a dealer RFQ.</p>
+</section>
+
+<!-- ============ 03 VEHICLES & SPECS ============ -->
+<section class="tab" id="specs">
+  <div class="sect-h"><span class="id">03 //</span><h2>Vehicle Specs &amp; Pricing</h2><div class="rule"></div></div>
+  <p class="lead">Full comparison set across classes. <b>Engine (cc)</b> and <b>power (hp)</b> sit next to price in <b>AED &amp; TRY</b> &mdash; toggle currency top-right. Click any column header to sort. <span class="tag t-list">TR LIST</span> = confirmed Turkish retail (CFMOTO/GOES, VAT+ÖTV incl). <span class="tag t-ref">MSRP REF</span> = home-market MSRP converted for comparison; <b>Turkish landed price runs materially higher</b> on these (import duty + ÖTV). <span class="fleet"></span> = typical tour/rental workhorse.</p>
+
+  <div class="filters" id="clsFilter">
+    <button class="on" data-c="all">ALL</button>
+    <button data-c="ATV-UTIL">ATV · Utility/Trail</button>
+    <button data-c="ATV-SPORT">ATV · Sport</button>
+    <button data-c="SXS-SPORT">SxS · Sport</button>
+    <button data-c="SXS-UTIL">SxS · Utility/Rec</button>
+    <button data-c="ENTRY">Entry / Budget</button>
+    <button data-c="FLEET">★ Fleet picks</button>
+  </div>
+
+  <div class="tbl-wrap"><div class="tbl-scroll">
+  <table id="specTable">
+    <thead><tr>
+      <th data-sort="brand">Brand <span class="ar"></span></th>
+      <th data-sort="model">Model <span class="ar"></span></th>
+      <th data-sort="clsName">Class <span class="ar"></span></th>
+      <th data-sort="cc" class="num">cc <span class="ar"></span></th>
+      <th data-sort="hp" class="num">hp <span class="ar"></span></th>
+      <th data-sort="seats" class="num">Seats <span class="ar"></span></th>
+      <th data-sort="dt">Drive <span class="ar"></span></th>
+      <th data-sort="aed" class="num">Price <span class="ar">▼</span></th>
+      <th data-sort="basis">Basis <span class="ar"></span></th>
+    </tr></thead>
+    <tbody id="specBody"></tbody>
+  </table>
+  </div></div>
+  <p class="note">Specs are manufacturer global figures; Turkish homologation (Traktör T3/T1) can cap speed (~60 km/h) or restrict power on registered units. hp/cc rounded. Confirmed ₺ prices: CFMOTO/GOES via UMA list (May 2026) &amp; akakçe. MSRP-ref USD: brand 2026 US pricing &amp; ATV.com specs.</p>
+</section>
+
+<!-- ============ 04 PRICE & POWER ============ -->
+<section class="tab" id="price">
+  <div class="sect-h"><span class="id">04 //</span><h2>Price &times; Power Analysis</h2><div class="rule"></div></div>
+  <p class="lead">The two relationships that decide fleet economics: <b>how much capacity (cc / hp) you buy per dirham</b>, and how the classes stack on absolute price. Currency follows the toggle. Bubble size = engine displacement.</p>
+
+  <div class="chart-box">
+    <h3>Engine Displacement vs. Price</h3>
+    <div class="ch-sub">Each point = one model. Up = pricier, right = bigger engine. The bottom-right (big engine, low price) is the value zone — where Chinese value brands live.</div>
+    <div class="canvas-h"><canvas id="scatterCC"></canvas></div>
+  </div>
+
+  <div class="chart-box">
+    <h3>Power (hp) vs. Price</h3>
+    <div class="ch-sub">Cost of horsepower. A flat-right cluster = cheap power; steep climbers (Maverick R, RZR Pro R) = premium halo machines.</div>
+    <div class="canvas-h"><canvas id="scatterHP"></canvas></div>
+  </div>
+
+  <div class="chart-box">
+    <h3>Confirmed Turkish Retail — CFMOTO &amp; GOES</h3>
+    <div class="ch-sub">The only fully transparent ₺ pricing in the market. Your hard anchor for every negotiation. Bars show price in the selected currency.</div>
+    <div class="canvas-h tall"><canvas id="barTR"></canvas></div>
+  </div>
+  <p class="note">Conversions: AED = ₺ ÷ 12.55 (USD/TRY 46.09, AED peg 3.6725). MSRP-ref models converted from USD home-market price — treat as a floor; Turkish street price is higher.</p>
+</section>
+
+<!-- ============ 05 TOUR OPERATORS ============ -->
+<section class="tab" id="tours">
+  <div class="sect-h"><span class="id">05 //</span><h2>Tour Operator Landscape</h2><div class="rule"></div></div>
+  <p class="lead">How the money actually works on the demand side &mdash; the business you'd be entering, not just the kit. Turkey runs <b>high volume at low yield</b>: tours are cheap, sold heavily through OTAs and package-holiday feeders, and price has stayed flat in EUR while the lira fell (a built-in margin squeeze in hard currency).</p>
+
+  <div class="grid g3">
+    <div class="card"><div class="k">Half-day shared</div><div class="stat" id="tp1">€30&ndash;55</div><p id="tp1s">≈ AED 120&ndash;220 pp</p></div>
+    <div class="card amber"><div class="k">Full-day ATV + Jeep + lunch</div><div class="stat amber" id="tp2">€55&ndash;90</div><p id="tp2s">≈ AED 220&ndash;360 pp</p></div>
+    <div class="card cyan"><div class="k">Private uplift</div><div class="stat cyan">+40&ndash;60%</div><p>Premium tier — your natural BRAT-style lane.</p></div>
+  </div>
+
+  <h3 class="block"><span class="bar2"></span>Channel &amp; operator structure</h3>
+  <div class="grid g2">
+    <div class="card cyan">
+      <div class="k">Booking channels</div>
+      <div class="li"><div class="dot c"></div><div><h4>OTAs dominate</h4><p><b>Viator, GetYourGuide, Klook</b> — Cappadocia alone lists 9+ ATV products on Klook. High visibility, but ~20&ndash;30% commission erodes the already-thin ticket.</p></div></div>
+      <div class="li"><div class="dot a"></div><div><h4>DMC / package feeders</h4><p>Hotel-desk + tour-operator bundles drive coastal volume. Relationship-led, repeat business.</p></div></div>
+      <div class="li"><div class="dot"></div><div><h4>WhatsApp direct</h4><p>Standard local conversion tool — same playbook as your UAE resident campaigns.</p></div></div>
+    </div>
+    <div class="card">
+      <div class="k">Reference operators</div>
+      <div class="li"><div class="dot"></div><div><h4>TravelShop Turkey / Murti's Tour</h4><p>Licensed DMC (MoT agency #5291). Quad safaris across Istanbul, Cappadocia, Fethiye, Marmaris, Antalya + 15 other points. Discounts up to 50%.</p></div></div>
+      <div class="li"><div class="dot g"></div><div><h4>Quad Maniac Turkey (Fethiye)</h4><p>Forest trail convoys, novice practice park + 15-min test drive, guided. Textbook safety-gated funnel.</p></div></div>
+      <div class="li"><div class="dot c"></div><div><h4>Cappadociaway / Ulink / regional</h4><p>Sunrise/sunset valley routes, hotel pickup, guide-led group rides, multiple daily slots.</p></div></div>
+    </div>
+  </div>
+  <p class="note">Tour-price EUR ranges from quadatvtours.com Turkey guide; operators per TravelShop Turkey, Quad Maniac, Cappadociaway, Viator/GetYourGuide. EUR→AED ≈ ×4.0, EUR→₺ ≈ ×49.8 (8 Jun 2026).</p>
+</section>
+
+<!-- ============ 06 BRAT PLAYBOOK ============ -->
+<section class="tab" id="play">
+  <div class="sect-h"><span class="id">06 //</span><h2>BRAT Entry Playbook</h2><div class="rule"></div></div>
+  <p class="lead">So what does this mean for a BRAT-style hypothesis test in Turkey? The read, blunt:</p>
+
+  <div class="grid g2">
+    <div class="card green">
+      <div class="k">Tailwinds</div>
+      <div class="li"><div class="dot g"></div><div><h4>Cheap capex in real terms</h4><p>Value 4x4 quads land at <b>AED 40k&ndash;82k</b> on a transparent CFMOTO list — a fraction of building a Can-Am/Polaris fleet, and resale is liquid on arabam/sahibinden.</p></div></div>
+      <div class="li"><div class="dot g"></div><div><h4>Host-operator entry fits the model</h4><p>Your "standalone entity on a host's premises" thesis works — buy/lease a value fleet, plug into an existing licensed DMC's permits &amp; pickup network.</p></div></div>
+      <div class="li"><div class="dot g"></div><div><h4>BRAT's edge is premium ops</h4><p>The market is commoditised at €30&ndash;55. Your differentiation = safety systems, vehicle quality, guide standards, private/VIP tier (+40&ndash;60%). That's exactly your UAE playbook.</p></div></div>
+    </div>
+    <div class="card">
+      <div class="k">Headwinds &amp; watch-outs</div>
+      <div class="li"><div class="dot"></div><div><h4>Brutal seasonality</h4><p>Coastal operators close Nov&ndash;Mar. A coastal-only test idles 4&ndash;5 months. <b>Cappadocia is the only year-round hedge</b> (snow rides included).</p></div></div>
+      <div class="li"><div class="dot a"></div><div><h4>Low yield, FX squeeze</h4><p>Tickets are cheap and priced in lira while costs (imported kit, parts) track hard currency. Margin per head is thin — this is a <b>volume</b> business, not a premium-ticket one like Al Badayer.</p></div></div>
+      <div class="li"><div class="dot c"></div><div><h4>Tractor registration regime</h4><p>4x4 quads register as Traktör T3/T1 — affects ÖTV, plating, speed caps and where they're road-legal. Get this nailed before importing a single unit.</p></div></div>
+      <div class="li"><div class="dot a"></div><div><h4>OTA commission drag</h4><p>20&ndash;30% to Viator/GYG on an already-low ticket. Direct + DMC channels protect margin.</p></div></div>
+    </div>
+  </div>
+
+  <h3 class="block"><span class="bar2"></span>Recommended fleet shape for a test</h3>
+  <div class="grid g3">
+    <div class="card cyan"><div class="k">Workhorse — 70%</div><h4 style="font-size:16px">CFMOTO CFORCE 450L / 625 · GOES Terrox 500L</h4><p>Cheap, parts-supported via UMA nationwide, T3-registerable, proven rental durability. The fleet backbone.</p></div>
+    <div class="card amber"><div class="k">Premium / VIP — 20%</div><h4 style="font-size:16px">CFMOTO ZFORCE 1000 · Segway Villain SX10</h4><p>Sport SxS for the private/VIP tier where the real margin lives. Telematics (Segway T-BOX) = safety story.</p></div>
+    <div class="card"><div class="k">Halo — 10%</div><h4 style="font-size:16px">Can-Am Maverick / Outlander</h4><p>One or two premium units for brand signalling &amp; photography. Don't over-invest — they're a marketing line item, not the P&amp;L.</p></div>
+  </div>
+
+  <div class="card green" style="margin-top:18px">
+    <div class="k">Bottom line</div>
+    <p style="font-size:15px;color:var(--txt)">Turkey is a <b>cheap fleet, cheap ticket, high-volume, highly seasonal</b> market. The hardware case is strong; the yield case is weak unless you bring BRAT's premium/private differentiation and anchor in a <b>year-round location (Cappadocia)</b> or accept a seasonal coastal play. Treat it as a low-capex hypothesis test on a host operator's licence — exactly the structure you sketched — and protect margin by going direct over OTAs.</p>
+  </div>
+</section>
+
+<!-- ============ 07 ENGINE SIZE × VALUE ============ -->
+<section class="tab" id="bands">
+  <div class="sect-h"><span class="id">07 //</span><h2>Engine Size &times; Value</h2><div class="rule"></div></div>
+  <p class="lead">Brand and dealer stripped out. Every machine is dropped into its <b>engine-size band</b>, then ranked <b>cheapest &rarr; most expensive</b> inside that band &mdash; so for any displacement you instantly see who's the value play and who's charging a premium. The <span style="color:var(--green);font-weight:700">green #1 in each band = the cost-effective entry pick</span>. Currency follows the toggle top-right.</p>
+
+  <div class="filters" id="bandFilter">
+    <button class="on" data-bf="all">ALL TYPES</button>
+    <button data-bf="ATV">QUADS (ATV)</button>
+    <button data-bf="SXS">SIDE-BY-SIDE</button>
+  </div>
+
+  <div id="bandsWrap"></div>
+  <p class="note">Ranking uses the selected currency. Confirmed Turkish list prices (CFMOTO/GOES — green "TR list") rank on real money; "MSRP ref" units rank on home-market USD converted to AED/₺ (Turkish landed price higher, so true entry value skews even further toward the value brands). "On request" units sort to the bottom of their band.</p>
+</section>
+
+</main>
+
+<footer>
+  <b>TURKEY OFF-ROAD VEHICLE INTELLIGENCE</b> — built for BRAT expansion recon. Data captured 08 Jun 2026; FX, list prices &amp; tour rates move — re-verify before commitment.<br><br>
+  <span class="src">
+  KEY SOURCES // cfmoto.com.tr (official ₺ list, UMA) · cfmoto.team &amp; akakçe (CFMOTO ₺ pricing) · brp-world.com/tr (Can-Am 2026) · polaristurkiye.com · segwayturkiye.com (Kuba Motor) · kymco.com.tr · istanbulatv.com · arabam.com / sahibinden.com (used market) · Polaris/Can-Am/Yamaha/Kawasaki/Segway US 2026 MSRP &amp; ATV.com specs · quadatvtours.com (Turkey tour economics) · TravelShop Turkey, Quad Maniac, Cappadociaway, Viator/GetYourGuide/Klook · FX: TradingEconomics, Wise, exchange-rates.org.<br>
+  Specs = manufacturer global figures; verify Turkish homologation &amp; landed pricing with distributors. "MSRP REF" pricing is a comparison floor, not a Turkish quote.
+  </span>
+</footer>
+
+<script>
+const FX = { USD_TRY:46.09, AED_TRY:12.55, USD_AED:3.6725, EUR_AED:4.0, EUR_TRY:49.8 };
+let CUR = 'AED';
+
+/* ---------- VEHICLE DATA ---------- */
+/* basis: 'list' = confirmed TR retail (₺) ; 'ref' = USD home MSRP converted ; price stored as source value */
+const CLS = {
+  'ATV-UTIL':{name:'ATV · Utility', css:'c-aut'},
+  'ATV-SPORT':{name:'ATV · Sport', css:'c-asp'},
+  'SXS-SPORT':{name:'SxS · Sport', css:'c-ssp'},
+  'SXS-UTIL':{name:'SxS · Utility', css:'c-sut'},
+  'ENTRY':{name:'Entry/Budget', css:'c-ent'}
+};
+const V = [
+  // CFMOTO / GOES — confirmed TR list (₺)
+  {b:'GOES',mo:'Terrox 400L',c:'ENTRY',cc:400,hp:27,s:1,dt:'4x4',try:508620,basis:'list',fleet:true},
+  {b:'GOES',mo:'Terrox 500L',c:'ATV-UTIL',cc:495,hp:32,s:1,dt:'4x4',try:562170,basis:'list',fleet:true},
+  {b:'CFMOTO',mo:'CFORCE 450L EPS',c:'ATV-UTIL',cc:400,hp:27,s:1,dt:'4x4',try:null,basis:'quote',fleet:true},
+  {b:'CFMOTO',mo:'CFORCE 625 Touring',c:'ATV-UTIL',cc:580,hp:40,s:2,dt:'4x4',try:null,basis:'quote',fleet:true},
+  {b:'CFMOTO',mo:'CFORCE 850 High',c:'ATV-UTIL',cc:800,hp:70,s:1,dt:'4x4',try:910245,basis:'list'},
+  {b:'CFMOTO',mo:'CFORCE 1000',c:'ATV-UTIL',cc:963,hp:85,s:1,dt:'4x4',try:null,basis:'quote'},
+  {b:'CFMOTO',mo:'CFORCE 1000 Overland',c:'ATV-UTIL',cc:963,hp:75,s:1,dt:'4x4',try:null,basis:'quote'},
+  {b:'CFMOTO',mo:'UFORCE 600',c:'SXS-UTIL',cc:580,hp:40,s:3,dt:'4x4',try:769944,basis:'list',fleet:true},
+  {b:'CFMOTO',mo:'UFORCE 1000 XL',c:'SXS-UTIL',cc:963,hp:79,s:3,dt:'4x4',try:1027005,basis:'list'},
+  {b:'CFMOTO',mo:'ZFORCE 1000 Sport R',c:'SXS-SPORT',cc:963,hp:93,s:2,dt:'4x4',try:920325,basis:'list',fleet:true},
+  {b:'CFMOTO',mo:'ZFORCE 950 Sport 4',c:'SXS-SPORT',cc:950,hp:88,s:4,dt:'4x4',try:1057770,basis:'list'},
+  // Can-Am (MSRP ref USD)
+  {b:'Can-Am',mo:'Outlander 700',c:'ATV-UTIL',cc:650,hp:50,s:1,dt:'4x4',usd:9499,basis:'ref'},
+  {b:'Can-Am',mo:'Outlander 850',c:'ATV-UTIL',cc:854,hp:78,s:1,dt:'4x4',usd:11499,basis:'ref'},
+  {b:'Can-Am',mo:'Outlander 1000R',c:'ATV-UTIL',cc:976,hp:91,s:1,dt:'4x4',usd:12999,basis:'ref'},
+  {b:'Can-Am',mo:'Renegade 1000R',c:'ATV-SPORT',cc:976,hp:91,s:1,dt:'4x4',usd:13499,basis:'ref'},
+  {b:'Can-Am',mo:'Maverick Trail 700',c:'SXS-SPORT',cc:650,hp:65,s:2,dt:'4x4',usd:13099,basis:'ref'},
+  {b:'Can-Am',mo:'Maverick Sport 1000R',c:'SXS-SPORT',cc:976,hp:100,s:2,dt:'4x4',usd:18799,basis:'ref'},
+  {b:'Can-Am',mo:'Maverick X3 Turbo RR',c:'SXS-SPORT',cc:900,hp:200,s:2,dt:'4x4',usd:31599,basis:'ref'},
+  {b:'Can-Am',mo:'Maverick R',c:'SXS-SPORT',cc:999,hp:240,s:2,dt:'4x4',usd:47000,basis:'ref'},
+  {b:'Can-Am',mo:'Traxter HD9',c:'SXS-UTIL',cc:650,hp:50,s:3,dt:'4x4',usd:13999,basis:'ref'},
+  // Polaris
+  {b:'Polaris',mo:'Sportsman 570',c:'ATV-UTIL',cc:567,hp:44,s:1,dt:'4x4',usd:7699,basis:'ref',fleet:true},
+  {b:'Polaris',mo:'Sportsman 850',c:'ATV-UTIL',cc:850,hp:78,s:1,dt:'4x4',usd:10599,basis:'ref'},
+  {b:'Polaris',mo:'Sportsman XP 1000',c:'ATV-UTIL',cc:952,hp:90,s:1,dt:'4x4',usd:12499,basis:'ref'},
+  {b:'Polaris',mo:'RZR Trail S 1000',c:'SXS-SPORT',cc:999,hp:100,s:2,dt:'4x4',usd:17999,basis:'ref'},
+  {b:'Polaris',mo:'RZR Pro R',c:'SXS-SPORT',cc:1997,hp:225,s:2,dt:'4x4',usd:36000,basis:'ref'},
+  {b:'Polaris',mo:'Ranger 1000',c:'SXS-UTIL',cc:999,hp:82,s:3,dt:'4x4',usd:15999,basis:'ref'},
+  // Yamaha
+  {b:'Yamaha',mo:'Raptor 700R',c:'ATV-SPORT',cc:686,hp:49,s:1,dt:'2WD',usd:10499,basis:'ref'},
+  {b:'Yamaha',mo:'Grizzly 700',c:'ATV-UTIL',cc:708,hp:45,s:1,dt:'4x4',usd:11799,basis:'ref',fleet:true},
+  {b:'Yamaha',mo:'YXZ1000R',c:'SXS-SPORT',cc:998,hp:112,s:2,dt:'4x4',usd:21000,basis:'ref'},
+  {b:'Yamaha',mo:'Wolverine RMAX2 1000',c:'SXS-UTIL',cc:999,hp:108,s:2,dt:'4x4',usd:21000,basis:'ref'},
+  // Kawasaki
+  {b:'Kawasaki',mo:'Brute Force 750',c:'ATV-UTIL',cc:749,hp:50,s:1,dt:'4x4',usd:9999,basis:'ref'},
+  {b:'Kawasaki',mo:'Teryx KRX 1000',c:'SXS-SPORT',cc:999,hp:112,s:2,dt:'4x4',usd:22000,basis:'ref'},
+  // Segway (Kuba Motor)
+  {b:'Segway',mo:'Snarler AT6',c:'ATV-UTIL',cc:570,hp:40,s:1,dt:'4x4',usd:8999,basis:'ref',fleet:true},
+  {b:'Segway',mo:'Fugleman UT10',c:'SXS-UTIL',cc:1000,hp:78,s:2,dt:'4x4',usd:13999,basis:'ref'},
+  {b:'Segway',mo:'Villain SX10',c:'SXS-SPORT',cc:1000,hp:105,s:2,dt:'4x4',usd:16299,basis:'ref',fleet:true},
+  {b:'Segway',mo:'Super Villain SX20',c:'SXS-SPORT',cc:1000,hp:130,s:2,dt:'4x4',usd:33999,basis:'ref'},
+  // Budget / fleet
+  {b:'Hisun',mo:'Sector 550',c:'SXS-UTIL',cc:550,hp:32,s:2,dt:'4x4',usd:9999,basis:'ref',fleet:true},
+  {b:'Hisun',mo:'Forge 1000',c:'SXS-SPORT',cc:976,hp:80,s:2,dt:'4x4',usd:13999,basis:'ref'},
+  {b:'TGB',mo:'Blade 600 LT',c:'ATV-UTIL',cc:561,hp:38,s:1,dt:'4x4',usd:7000,basis:'ref',fleet:true},
+  {b:'Kymco',mo:'MXU 550i EPS',c:'ATV-UTIL',cc:550,hp:32,s:1,dt:'4x4',usd:8500,basis:'ref',fleet:true},
+  {b:'Kymco',mo:'MXU 300i',c:'ENTRY',cc:271,hp:22,s:1,dt:'2WD',usd:5500,basis:'ref'}
+];
+
+/* derive AED/TRY for each */
+function priceAED(v){ return v.try!=null ? v.try/FX.AED_TRY : (v.usd!=null ? v.usd*FX.USD_AED : null); }
+function priceTRY(v){ return v.try!=null ? v.try : (v.usd!=null ? v.usd*FX.USD_TRY : null); }
+V.forEach(v=>{ v.aed=priceAED(v); v.tryv=priceTRY(v); v.clsName=CLS[v.c].name; v.type=v.c.indexOf('SXS')===0?'SXS':'ATV'; });
+
+const fmt = (n,cur)=> n==null ? '—' : (cur==='AED'
+  ? 'AED '+Math.round(n/100)*100 .toLocaleString()
+  : '₺'+(Math.round(n/1000)*1000).toLocaleString());
+function money(n,cur){
+  if(n==null) return '<span class="price-main" style="color:var(--muted)">on request</span>';
+  if(cur==='AED'){ return 'AED '+(Math.round(n/100)*100).toLocaleString(); }
+  return '₺'+(Math.round(n/1000)*1000).toLocaleString();
+}
+
+/* ---------- TABLE RENDER ---------- */
+let curFilter='all', sortKey='aed', sortDir=-1;
+function renderTable(){
+  const body=document.getElementById('specBody');
+  let rows=V.slice();
+  if(curFilter==='FLEET') rows=rows.filter(v=>v.fleet);
+  else if(curFilter!=='all') rows=rows.filter(v=>v.c===curFilter);
+  rows.sort((a,b)=>{
+    let x=a[sortKey], y=b[sortKey];
+    if(typeof x==='string'){ return sortDir*x.localeCompare(y); }
+    if(x==null) x=Infinity*sortDir*-1; if(y==null) y=Infinity*sortDir*-1;
+    return sortDir*(x-y);
+  });
+  body.innerHTML = rows.map(v=>{
+    const tag = v.basis==='list' ? '<span class="tag t-list">TR list</span>'
+      : v.basis==='ref' ? '<span class="tag t-ref">MSRP ref</span>'
+      : '<span class="tag t-quote">quote</span>';
+    const primary = CUR==='AED' ? v.aed : v.tryv;
+    const secondary = CUR==='AED' ? v.tryv : v.aed;
+    const pMain = primary==null ? '<span class="price-main" style="color:var(--muted)">on request</span>'
+      : '<span class="price-main">'+money(primary,CUR)+'</span>';
+    const pSub = secondary==null ? '' : '<div class="price-sub">'+money(secondary, CUR==='AED'?'TRY':'AED')+'</div>';
+    const fleetCls = v.fleet ? ' fleet' : '';
+    return `<tr>
+      <td class="brand${fleetCls}">${v.b}</td>
+      <td class="model">${v.mo}</td>
+      <td><span class="cls ${CLS[v.c].css}">${CLS[v.c].name}</span></td>
+      <td class="num">${v.cc}</td>
+      <td class="num">${v.hp}</td>
+      <td class="num">${v.s}</td>
+      <td class="num" style="text-align:left">${v.dt}</td>
+      <td class="num">${pMain}${pSub}</td>
+      <td>${tag}</td>
+    </tr>`;
+  }).join('');
+}
+
+/* filter clicks */
+document.getElementById('clsFilter').addEventListener('click',e=>{
+  if(e.target.tagName!=='BUTTON')return;
+  document.querySelectorAll('#clsFilter button').forEach(b=>b.classList.remove('on'));
+  e.target.classList.add('on'); curFilter=e.target.dataset.c; renderTable();
+});
+/* sort clicks */
+document.querySelectorAll('#specTable thead th').forEach(th=>{
+  th.addEventListener('click',()=>{
+    const k=th.dataset.sort; if(!k)return;
+    if(sortKey===k) sortDir*=-1; else { sortKey=k; sortDir=(k==='brand'||k==='model'||k==='clsName'||k==='dt'||k==='basis')?1:-1; }
+    document.querySelectorAll('#specTable thead .ar').forEach(a=>a.textContent='');
+    th.querySelector('.ar').textContent = sortDir>0?'▲':'▼';
+    renderTable();
+  });
+});
+
+/* ---------- TABS ---------- */
+document.getElementById('nav').addEventListener('click',e=>{
+  const btn=e.target.closest('button'); if(!btn)return;
+  document.querySelectorAll('#nav button').forEach(b=>b.classList.remove('on'));
+  btn.classList.add('on');
+  document.querySelectorAll('.tab').forEach(t=>t.classList.remove('on'));
+  document.getElementById(btn.dataset.tab).classList.add('on');
+  if(btn.dataset.tab==='price') setTimeout(drawCharts,60);
+  window.scrollTo({top:0,behavior:'smooth'});
+});
+
+/* ---------- FX TOGGLE ---------- */
+document.getElementById('fxToggle').addEventListener('click',e=>{
+  if(e.target.tagName!=='BUTTON')return;
+  document.querySelectorAll('#fxToggle button').forEach(b=>b.classList.remove('on'));
+  e.target.classList.add('on'); CUR=e.target.dataset.cur;
+  renderTable(); updateTourPrices(); drawCharts(); renderBands();
+});
+
+/* ---------- TOUR PRICES ---------- */
+function updateTourPrices(){
+  if(CUR==='AED'){
+    document.getElementById('tp1').textContent='AED 120–220';
+    document.getElementById('tp1s').textContent='€30–55 pp · ≈ ₺1,500–2,750';
+    document.getElementById('tp2').textContent='AED 220–360';
+    document.getElementById('tp2s').textContent='€55–90 pp · ≈ ₺2,750–4,500';
+  } else {
+    document.getElementById('tp1').textContent='₺1,500–2,750';
+    document.getElementById('tp1s').textContent='€30–55 pp · ≈ AED 120–220';
+    document.getElementById('tp2').textContent='₺2,750–4,500';
+    document.getElementById('tp2s').textContent='€55–90 pp · ≈ AED 220–360';
+  }
+}
+
+/* ---------- CHARTS ---------- */
+let chCC, chHP, chBar;
+const BRANDCOL={'CFMOTO':'#FF2800','GOES':'#ff6a4d','Can-Am':'#ffb000','Polaris':'#00e0ff','Yamaha':'#3af0b4','Kawasaki':'#9d7bff','Segway':'#ff4da6','Hisun':'#7dd3fc','TGB':'#a3e635','Kymco':'#fbbf24'};
+Chart.defaults.color='#8b909c';
+Chart.defaults.font.family="'JetBrains Mono', monospace";
+
+function bubbles(xKey){
+  const groups={};
+  V.filter(v=>v.aed!=null).forEach(v=>{
+    (groups[v.b]=groups[v.b]||[]).push({
+      x:v[xKey], y: CUR==='AED'?v.aed:v.tryv, r: Math.max(5, v.cc/95), mo:v.mo, b:v.b, cc:v.cc, hp:v.hp
+    });
+  });
+  return Object.keys(groups).map(b=>({
+    label:b, data:groups[b],
+    backgroundColor:(BRANDCOL[b]||'#fff')+'cc', borderColor:BRANDCOL[b]||'#fff', borderWidth:1
+  }));
+}
+function scatterOpts(xTitle){
+  const cur=CUR;
+  return {
+    responsive:true, maintainAspectRatio:false,
+    plugins:{
+      legend:{position:'bottom',labels:{boxWidth:10,padding:12,font:{size:11}}},
+      tooltip:{callbacks:{label:c=>{
+        const d=c.raw; const p = cur==='AED'?('AED '+Math.round(d.y).toLocaleString()):('₺'+Math.round(d.y).toLocaleString());
+        return ` ${d.b} ${d.mo} — ${d.cc}cc · ${d.hp}hp · ${p}`;
+      }}}
+    },
+    scales:{
+      x:{title:{display:true,text:xTitle,color:'#f3f4f6'},grid:{color:'rgba(255,255,255,.05)'}},
+      y:{title:{display:true,text:'Price ('+cur+')',color:'#f3f4f6'},grid:{color:'rgba(255,255,255,.05)'},
+         ticks:{callback:v=> cur==='AED'?(v/1000+'k'):('₺'+v/1000+'k')}}
+    }
+  };
+}
+function drawCharts(){
+  if(typeof Chart==='undefined')return;
+  // scatter cc
+  if(chCC)chCC.destroy();
+  chCC=new Chart(document.getElementById('scatterCC'),{type:'bubble',data:{datasets:bubbles('cc')},options:scatterOpts('Engine displacement (cc)')});
+  // scatter hp
+  if(chHP)chHP.destroy();
+  chHP=new Chart(document.getElementById('scatterHP'),{type:'bubble',data:{datasets:bubbles('hp')},options:scatterOpts('Power (hp)')});
+  // bar confirmed TR
+  const tr=V.filter(v=>v.basis==='list').sort((a,b)=>(CUR==='AED'?a.aed-b.aed:a.tryv-b.tryv));
+  if(chBar)chBar.destroy();
+  chBar=new Chart(document.getElementById('barTR'),{
+    type:'bar',
+    data:{labels:tr.map(v=>v.b+' '+v.mo),
+      datasets:[{label:'Price ('+CUR+')',data:tr.map(v=>CUR==='AED'?Math.round(v.aed):Math.round(v.tryv)),
+        backgroundColor:tr.map(v=>(BRANDCOL[v.b]||'#FF2800')+'dd'),borderColor:'#FF2800',borderWidth:1,borderRadius:4}]},
+    options:{indexAxis:'y',responsive:true,maintainAspectRatio:false,
+      plugins:{legend:{display:false},tooltip:{callbacks:{label:c=>' '+(CUR==='AED'?'AED '+c.parsed.x.toLocaleString():'₺'+c.parsed.x.toLocaleString())}}},
+      scales:{x:{grid:{color:'rgba(255,255,255,.05)'},ticks:{callback:v=>CUR==='AED'?(v/1000+'k'):('₺'+v/1000+'k')}},
+              y:{grid:{display:false},ticks:{font:{size:11}}}}}
+  });
+}
+
+/* ---------- ENGINE-SIZE BANDS ---------- */
+const BANDS=[
+  {label:'Entry',range:'≤ 400 cc',min:0,max:400},
+  {label:'Light',range:'401 – 600 cc',min:401,max:600},
+  {label:'Mid',range:'601 – 800 cc',min:601,max:800},
+  {label:'Performance',range:'801 – 1000 cc',min:801,max:1000},
+  {label:'Hyper',range:'1000 cc +',min:1001,max:99999}
+];
+let bandFilter='all';
+function renderBands(){
+  const wrap=document.getElementById('bandsWrap');
+  wrap.innerHTML=BANDS.map(band=>{
+    let rows=V.filter(v=>v.cc>=band.min&&v.cc<=band.max);
+    if(bandFilter!=='all') rows=rows.filter(v=>v.type===bandFilter);
+    if(!rows.length) return '';
+    rows.sort((a,b)=>{
+      const pa=CUR==='AED'?a.aed:a.tryv, pb=CUR==='AED'?b.aed:b.tryv;
+      if(pa==null&&pb==null) return a.cc-b.cc;
+      if(pa==null) return 1; if(pb==null) return -1;
+      return pa-pb;
+    });
+    const priced=rows.filter(v=>v.aed!=null);
+    const cheapest=priced.length?(CUR==='AED'?priced[0].aed:priced[0].tryv):null;
+    const ccs=rows.map(v=>v.cc);
+    const head=`<div class="band-head">
+        <div><span class="band-tag">${band.label}</span><h3>${band.range}</h3></div>
+        <div class="band-meta">${rows.length} model${rows.length>1?'s':''} · ${Math.min(...ccs)}–${Math.max(...ccs)}cc${cheapest!=null?`<br>from <b>${money(cheapest,CUR)}</b>`:''}</div>
+      </div>`;
+    const list=rows.map((v,i)=>{
+      const pr=CUR==='AED'?v.aed:v.tryv, sec=CUR==='AED'?v.tryv:v.aed;
+      const isVal=(v.aed!=null&&i===0);
+      const tag=v.basis==='list'?'<span class="tag t-list">TR list</span>':v.basis==='ref'?'<span class="tag t-ref">MSRP ref</span>':'<span class="tag t-quote">quote</span>';
+      const price = pr!=null
+        ? '<span class="price-main">'+money(pr,CUR)+'</span><div class="price-sub">'+money(sec,CUR==='AED'?'TRY':'AED')+'</div>'
+        : '<span class="price-main" style="color:var(--muted)">on request</span>';
+      return `<div class="brow${isVal?' best':''}">
+        <div class="rk">${pr!=null?('#'+(i+1)):'—'}</div>
+        <div class="bn"><span class="brand">${v.b}</span> <span class="model">${v.mo}</span>${isVal?'<span class="valtag">ENTRY VALUE</span>':''}
+          <div class="bmeta"><span class="cls ${CLS[v.c].css}">${CLS[v.c].name}</span> · ${v.cc}cc · ${v.hp}hp · ${v.dt} · ${v.s} seat ${tag}</div>
+        </div>
+        <div class="bp">${price}</div>
+      </div>`;
+    }).join('');
+    return `<div class="band-panel">${head}<div class="band-list">${list}</div></div>`;
+  }).join('');
+}
+document.getElementById('bandFilter').addEventListener('click',e=>{
+  if(e.target.tagName!=='BUTTON')return;
+  document.querySelectorAll('#bandFilter button').forEach(b=>b.classList.remove('on'));
+  e.target.classList.add('on'); bandFilter=e.target.dataset.bf; renderBands();
+});
+
+/* init */
+renderTable(); updateTourPrices(); renderBands();
+</script>
+</body>
+</html>
