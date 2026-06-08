@@ -11,6 +11,8 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Saira+Condensed:wght@500;600;700;800;900&family=Archivo:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.css"/>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.js"></script>
 <style>
 :root{
   --red:#FF2800; --red-dim:#c41f00; --red-glow:rgba(255,40,0,.55);
@@ -171,6 +173,14 @@ h3.block .bar2{display:inline-block;width:28px;height:3px;background:var(--red);
 .scout-card .rw{display:flex;gap:10px;padding:7px 0;border-top:1px solid var(--line);font-size:12.5px;line-height:1.45}
 .scout-card .rw .lab{flex:0 0 86px;color:var(--muted);font-family:'JetBrains Mono';font-size:10px;text-transform:uppercase;letter-spacing:.03em;padding-top:2px}
 .scout-card .rw .val{flex:1;color:var(--txt)}
+.lmap{height:330px;border:1px solid var(--line);border-radius:10px;overflow:hidden;margin-top:8px;z-index:0}
+.leaflet-container{background:#0e0f12;font-family:'Archivo',sans-serif}
+.leaflet-popup-content{font-size:12.5px;line-height:1.5}
+.leaflet-popup-content a{color:#0a66c2;font-weight:600}
+.maplabel{font-family:'Saira Condensed';font-weight:800;font-size:17px;text-transform:uppercase;margin:18px 0 0;letter-spacing:.01em}
+.mlegend{display:flex;gap:16px;flex-wrap:wrap;font-size:11.5px;color:var(--muted);margin:10px 0 4px;font-family:'JetBrains Mono'}
+.mlegend span{display:inline-flex;align-items:center;gap:6px}
+.mlegend i{width:12px;height:12px;border-radius:50%;display:inline-block;border:1px solid rgba(255,255,255,.4)}
 /* engine-size bands */
 .band-panel{background:linear-gradient(160deg,var(--panel),var(--bg2));border:1px solid var(--line);border-radius:10px;margin-bottom:20px;overflow:hidden}
 .band-panel::before{content:"";display:block;height:3px;background:linear-gradient(90deg,var(--red),transparent 70%)}
@@ -750,11 +760,28 @@ a:hover{text-decoration:underline}
   <p class="lead">Two separate things. <b>Part A</b> = candidate <b>base sites we could set up on</b> — each within a <b>max 1-hour drive of a major hotel source</b> — with the land, forestry, permit and infrastructure reality for each. <b>Part B</b> = which of the <b>existing operators</b> already sit inside that 1-hour hotel radius. Coordinates are drop-in for Google Maps.</p>
 
   <h3 class="block"><span class="bar2"></span>Part A — Candidate base sites (≤ 1 hr from major hotels)</h3>
+  <p>Suitability maps below. Zone tint: <b style="color:var(--green)">green = prime catchment</b>, <b style="color:var(--amber)">amber = workable but caveated</b>, <b style="color:var(--red)">red = not viable</b>. <b style="color:var(--green)">◆</b> = proposed base · <b style="color:var(--red)">●</b> = existing operator. <b>Tap any marker</b> for details + a Google Maps link. Maps are zoomable and screenshot-ready.</p>
+  <div class="mlegend">
+    <span><i style="background:rgba(58,240,180,.35);border-color:var(--green)"></i> Prime catchment</span>
+    <span><i style="background:rgba(255,176,0,.35);border-color:var(--amber)"></i> Workable / caveat</span>
+    <span><i style="background:rgba(255,40,0,.35);border-color:var(--red)"></i> Not viable</span>
+    <span><i style="background:var(--green)"></i> Proposed base ◆</span>
+    <span><i style="background:var(--red)"></i> Existing operator ●</span>
+  </div>
+  <div class="maplabel" style="margin-top:8px">Cappadocia</div>
+  <div class="lmap" id="map_capp"></div>
+  <div class="maplabel">Antalya — Kemer · Belek/Aksu · Side</div>
+  <div class="lmap" id="map_ant"></div>
+  <div class="maplabel">Bodrum</div>
+  <div class="lmap" id="map_bod"></div>
+  <div class="maplabel">Istanbul — Şile / Ağva (vs tourist core)</div>
+  <div class="lmap" id="map_ist"></div>
+  <h3 class="block" style="margin-top:26px"><span class="bar2"></span>Candidate base detail — legalities, forestry &amp; infrastructure</h3>
   <div class="grid g2">
 
     <div class="scout-card" style="border-top:2px solid var(--green)">
       <h4>Cappadocia — Göreme / Çavuşin valley fringe</h4>
-      <div class="coord">38.6512, 34.8470 &nbsp;·&nbsp; Nevşehir</div>
+      <div class="coord"><a href="https://www.google.com/maps?q=38.6512,34.8470" target="_blank" rel="noopener" style="color:var(--cyan);text-decoration:underline">38.6512, 34.8470 ↗</a> &nbsp;·&nbsp; Nevşehir</div>
       <div class="rw"><div class="lab">Hotels ≤1h</div><div class="val">Göreme 0–5m · Çavuşin 7m · Uçhisar 10m · Ortahisar 15m · Avanos 20m · Ürgüp 20m · Nevşehir 30m (45+ cave hotels)</div></div>
       <div class="rw"><div class="lab">Terrain</div><div class="val">Volcanic tuff valleys, fairy chimneys, dirt trails. Iconic; year-round incl. winter snow.</div></div>
       <div class="rw"><div class="lab">Land / forestry</div><div class="val">NOT forest land — protected cultural landscape under the <b>Cappadocia Area Directorate</b>; UNESCO site; national-park status removed 2019.</div></div>
@@ -765,7 +792,7 @@ a:hover{text-decoration:underline}
 
     <div class="scout-card" style="border-top:2px solid var(--amber)">
       <h4>Antalya — Belek / Aksu pine forest</h4>
-      <div class="coord">37.0100, 30.8180 &nbsp;·&nbsp; Antalya</div>
+      <div class="coord"><a href="https://www.google.com/maps?q=37.0100,30.8180" target="_blank" rel="noopener" style="color:var(--cyan);text-decoration:underline">37.0100, 30.8180 ↗</a> &nbsp;·&nbsp; Antalya</div>
       <div class="rw"><div class="lab">Hotels ≤1h</div><div class="val">Antalya airport 10–20m · Kadriye 15m · Serik 15m · Belek 20m · Kundu 25m · Lara 30m (5-star belt — highest spend)</div></div>
       <div class="rw"><div class="lab">Terrain</div><div class="val">Flat-to-rolling pine forest, sandy/forest tracks. Easy logistics.</div></div>
       <div class="rw"><div class="lab">Land / forestry</div><div class="val">State <b>pine forest → OGM (Forestry) lease/permit</b> required. Köprülü Canyon NP to the north — route outside park core.</div></div>
@@ -776,7 +803,7 @@ a:hover{text-decoration:underline}
 
     <div class="scout-card">
       <h4>Antalya — Kemer (Beldibi / Göynük foothills)</h4>
-      <div class="coord">36.6790, 30.5585 &nbsp;·&nbsp; Antalya</div>
+      <div class="coord"><a href="https://www.google.com/maps?q=36.6790,30.5585" target="_blank" rel="noopener" style="color:var(--cyan);text-decoration:underline">36.6790, 30.5585 ↗</a> &nbsp;·&nbsp; Antalya</div>
       <div class="rw"><div class="lab">Hotels ≤1h</div><div class="val">Göynük 5m · Beldibi 10m · Kuzdere 15m · Kemer 15m · Çamyuva 15m · Tekirova 25m · Antalya centre 45m</div></div>
       <div class="rw"><div class="lab">Terrain</div><div class="val">Taurus pine forest, canyons, mountain streams, lake stops — most scenic Antalya option.</div></div>
       <div class="rw"><div class="lab">Land / forestry</div><div class="val">Taurus <b>forest → OGM permit</b>; Olympos-Beydağları NP margins — avoid park core.</div></div>
@@ -787,7 +814,7 @@ a:hover{text-decoration:underline}
 
     <div class="scout-card">
       <h4>Antalya — Side / Manavgat foothills</h4>
-      <div class="coord">36.8450, 31.4970 &nbsp;·&nbsp; Antalya</div>
+      <div class="coord"><a href="https://www.google.com/maps?q=36.8450,31.4970" target="_blank" rel="noopener" style="color:var(--cyan);text-decoration:underline">36.8450, 31.4970 ↗</a> &nbsp;·&nbsp; Antalya</div>
       <div class="rw"><div class="lab">Hotels ≤1h</div><div class="val">Manavgat 10m · Evrenseki 15m · Çolaklı 20m · Kumköy 20m · Side 25m · Alanya ~50m</div></div>
       <div class="rw"><div class="lab">Terrain</div><div class="val">Taurus foothills, Green Canyon / Köprülü river country. Mud + water features.</div></div>
       <div class="rw"><div class="lab">Land / forestry</div><div class="val"><b>OGM forest permit</b>; Köprülü Canyon NP nearby (rafting hub) — route must stay outside park.</div></div>
@@ -798,7 +825,7 @@ a:hover{text-decoration:underline}
 
     <div class="scout-card">
       <h4>Bodrum — Çamarası / Mazı interior</h4>
-      <div class="coord">37.0858, 27.6292 &nbsp;·&nbsp; Muğla</div>
+      <div class="coord"><a href="https://www.google.com/maps?q=37.0858,27.6292" target="_blank" rel="noopener" style="color:var(--cyan);text-decoration:underline">37.0858, 27.6292 ↗</a> &nbsp;·&nbsp; Muğla</div>
       <div class="rw"><div class="lab">Hotels ≤1h</div><div class="val">Torba 10m · Bodrum 15m · Ortakent 15m · Gümbet 20m · Bitez 20m · Turgutreis 30m · Yalıkavak 30m · airport 30m</div></div>
       <div class="rw"><div class="lab">Terrain</div><div class="val">Peninsula scrub-pine hills, dirt tracks, sea-view ridges.</div></div>
       <div class="rw"><div class="lab">Land / forestry</div><div class="val"><b>OGM forest permit</b> + heavy <b>Muğla coastal SİT (conservation) zoning</b> — route approval is the sensitive part.</div></div>
@@ -809,7 +836,7 @@ a:hover{text-decoration:underline}
 
     <div class="scout-card" style="border-top:2px solid var(--red)">
       <h4>Istanbul — Şile / Ağva forest</h4>
-      <div class="coord">41.1300, 29.5900 &nbsp;·&nbsp; İstanbul</div>
+      <div class="coord"><a href="https://www.google.com/maps?q=41.1300,29.5900" target="_blank" rel="noopener" style="color:var(--cyan);text-decoration:underline">41.1300, 29.5900 ↗</a> &nbsp;·&nbsp; İstanbul</div>
       <div class="rw"><div class="lab">Hotels ≤1h</div><div class="val">Şile town 10m · Asian-side suburbs 55–75m · <b style="color:var(--red)">Sultanahmet / Taksim foreign-tourist core 75–90m ✗</b> · Sabiha Gökçen 60m</div></div>
       <div class="rw"><div class="lab">Terrain</div><div class="val">Black Sea forest, reservoir tracks. Good trail, wrong catchment.</div></div>
       <div class="rw"><div class="lab">Land / forestry</div><div class="val"><b>OGM forest permit</b> + strict <b>İstanbul watershed protection</b> (Ömerli / Darlık reservoirs).</div></div>
@@ -826,25 +853,25 @@ a:hover{text-decoration:underline}
   <table>
     <thead><tr><th>Operator</th><th>Zone</th><th>Coordinates</th><th>Nearest hotel source</th><th class="num">~Drive</th><th>≤1 hr?</th><th class="num">Rating</th></tr></thead>
     <tbody>
-      <tr><td class="brand">Cappadocia Adventure</td><td>Göreme</td><td class="model">38.6431, 34.8379</td><td class="model">Göreme hotels</td><td class="num">5m</td><td><span class="av av-stock">YES</span></td><td class="num">4.7 (2089)</td></tr>
-      <tr><td class="brand">ATV Turları Göreme</td><td>Göreme</td><td class="model">38.6514, 34.8361</td><td class="model">Göreme hotels</td><td class="num">5m</td><td><span class="av av-stock">YES</span></td><td class="num">4.8 (808)</td></tr>
-      <tr><td class="brand">Cappadocia Atv Tour</td><td>Göreme</td><td class="model">38.6411, 34.8311</td><td class="model">Göreme hotels</td><td class="num">5m</td><td><span class="av av-stock">YES</span></td><td class="num">4.9 (17)</td></tr>
-      <tr><td class="brand">Göreme Rental ATV</td><td>Göreme</td><td class="model">38.6460, 34.8247</td><td class="model">Göreme hotels</td><td class="num">5m</td><td><span class="av av-stock">YES</span></td><td class="num">4.6 (240)</td></tr>
-      <tr><td class="brand">Kapadokya ATV Turu</td><td>Göreme</td><td class="model">38.6440, 34.8317</td><td class="model">Göreme hotels</td><td class="num">5m</td><td><span class="av av-stock">YES</span></td><td class="num">4.7 (98)</td></tr>
-      <tr><td class="brand">Stone White Travel</td><td>Göreme</td><td class="model">38.6486, 34.8340</td><td class="model">Göreme hotels</td><td class="num">5m</td><td><span class="av av-stock">YES</span></td><td class="num">4.0 (68)</td></tr>
-      <tr><td class="brand">Antalya Buggy-Quad Safari</td><td>Belek/Aksu</td><td class="model">37.0099, 30.8177</td><td class="model">Belek / Lara belt</td><td class="num">20–30m</td><td><span class="av av-stock">YES</span></td><td class="num">4.2 (648)</td></tr>
-      <tr><td class="brand">Likya Quad Safari</td><td>Kemer</td><td class="model">36.6805, 30.5573</td><td class="model">Kemer hotels</td><td class="num">15m</td><td><span class="av av-stock">YES</span></td><td class="num">4.7 (362)</td></tr>
-      <tr><td class="brand">Göynük Quad Safari</td><td>Kemer</td><td class="model">36.6744, 30.5590</td><td class="model">Kemer hotels</td><td class="num">15m</td><td><span class="av av-stock">YES</span></td><td class="num">3.3 (78)</td></tr>
-      <tr><td class="brand">Paradise Quad Safari</td><td>Kemer</td><td class="model">36.5641, 30.5255</td><td class="model">Kemer hotels</td><td class="num">25m</td><td><span class="av av-stock">YES</span></td><td class="num">4.5 (114)</td></tr>
-      <tr><td class="brand">Cat's Quad & Buggy</td><td>Manavgat</td><td class="model">36.8448, 31.4965</td><td class="model">Side / Kumköy</td><td class="num">25–30m</td><td><span class="av av-stock">YES</span></td><td class="num">3.6 (267)</td></tr>
-      <tr><td class="brand">Side Tours Antalya</td><td>Side</td><td class="model">36.7742, 31.4039</td><td class="model">Side hotels</td><td class="num">5m</td><td><span class="av av-stock">YES</span></td><td class="num">4.8 (171)</td></tr>
-      <tr><td class="brand">Bodrum Atv Buggy Safari</td><td>Bodrum</td><td class="model">37.0858, 27.6292</td><td class="model">Bodrum / Torba</td><td class="num">15m</td><td><span class="av av-stock">YES</span></td><td class="num">4.4 (330)</td></tr>
-      <tr><td class="brand">Bodrum Quad ATV Rent</td><td>Gümbet</td><td class="model">37.0348, 27.4019</td><td class="model">Gümbet / Bitez</td><td class="num">0–5m</td><td><span class="av av-stock">YES</span></td><td class="num">5.0 (24)</td></tr>
-      <tr><td class="brand">Safari Life Istanbul</td><td>Şile</td><td class="model">41.1664, 29.5623</td><td class="model">Foreign-tourist core</td><td class="num">75–90m</td><td><span class="av av-order">NO</span></td><td class="num">4.4 (152)</td></tr>
-      <tr><td class="brand">İstanbul ATV Şile</td><td>Şile</td><td class="model">41.1641, 29.5836</td><td class="model">Foreign-tourist core</td><td class="num">75–90m</td><td><span class="av av-order">NO</span></td><td class="num">4.7 (67)</td></tr>
-      <tr><td class="brand">Şile Quad Safari</td><td>Şile</td><td class="model">41.1182, 29.5933</td><td class="model">Foreign-tourist core</td><td class="num">80–95m</td><td><span class="av av-order">NO</span></td><td class="num">4.6 (79)</td></tr>
-      <tr><td class="brand">Ağva ATV Safari</td><td>Ağva</td><td class="model">41.1273, 29.8538</td><td class="model">Foreign-tourist core</td><td class="num">95m+</td><td><span class="av av-order">NO</span></td><td class="num">5.0 (55)</td></tr>
-      <tr><td class="brand">Ağva atv safari</td><td>Ağva</td><td class="model">41.1358, 29.8410</td><td class="model">Foreign-tourist core</td><td class="num">95m+</td><td><span class="av av-order">NO</span></td><td class="num">4.5 (25)</td></tr>
+      <tr><td class="brand">Cappadocia Adventure</td><td>Göreme</td><td class="model"><a href="https://www.google.com/maps?q=38.6431,34.8379" target="_blank" rel="noopener" style="color:var(--cyan)">38.6431, 34.8379 ↗</a></td><td class="model">Göreme hotels</td><td class="num">5m</td><td><span class="av av-stock">YES</span></td><td class="num">4.7 (2089)</td></tr>
+      <tr><td class="brand">ATV Turları Göreme</td><td>Göreme</td><td class="model"><a href="https://www.google.com/maps?q=38.6514,34.8361" target="_blank" rel="noopener" style="color:var(--cyan)">38.6514, 34.8361 ↗</a></td><td class="model">Göreme hotels</td><td class="num">5m</td><td><span class="av av-stock">YES</span></td><td class="num">4.8 (808)</td></tr>
+      <tr><td class="brand">Cappadocia Atv Tour</td><td>Göreme</td><td class="model"><a href="https://www.google.com/maps?q=38.6411,34.8311" target="_blank" rel="noopener" style="color:var(--cyan)">38.6411, 34.8311 ↗</a></td><td class="model">Göreme hotels</td><td class="num">5m</td><td><span class="av av-stock">YES</span></td><td class="num">4.9 (17)</td></tr>
+      <tr><td class="brand">Göreme Rental ATV</td><td>Göreme</td><td class="model"><a href="https://www.google.com/maps?q=38.6460,34.8247" target="_blank" rel="noopener" style="color:var(--cyan)">38.6460, 34.8247 ↗</a></td><td class="model">Göreme hotels</td><td class="num">5m</td><td><span class="av av-stock">YES</span></td><td class="num">4.6 (240)</td></tr>
+      <tr><td class="brand">Kapadokya ATV Turu</td><td>Göreme</td><td class="model"><a href="https://www.google.com/maps?q=38.6440,34.8317" target="_blank" rel="noopener" style="color:var(--cyan)">38.6440, 34.8317 ↗</a></td><td class="model">Göreme hotels</td><td class="num">5m</td><td><span class="av av-stock">YES</span></td><td class="num">4.7 (98)</td></tr>
+      <tr><td class="brand">Stone White Travel</td><td>Göreme</td><td class="model"><a href="https://www.google.com/maps?q=38.6486,34.8340" target="_blank" rel="noopener" style="color:var(--cyan)">38.6486, 34.8340 ↗</a></td><td class="model">Göreme hotels</td><td class="num">5m</td><td><span class="av av-stock">YES</span></td><td class="num">4.0 (68)</td></tr>
+      <tr><td class="brand">Antalya Buggy-Quad Safari</td><td>Belek/Aksu</td><td class="model"><a href="https://www.google.com/maps?q=37.0099,30.8177" target="_blank" rel="noopener" style="color:var(--cyan)">37.0099, 30.8177 ↗</a></td><td class="model">Belek / Lara belt</td><td class="num">20–30m</td><td><span class="av av-stock">YES</span></td><td class="num">4.2 (648)</td></tr>
+      <tr><td class="brand">Likya Quad Safari</td><td>Kemer</td><td class="model"><a href="https://www.google.com/maps?q=36.6805,30.5573" target="_blank" rel="noopener" style="color:var(--cyan)">36.6805, 30.5573 ↗</a></td><td class="model">Kemer hotels</td><td class="num">15m</td><td><span class="av av-stock">YES</span></td><td class="num">4.7 (362)</td></tr>
+      <tr><td class="brand">Göynük Quad Safari</td><td>Kemer</td><td class="model"><a href="https://www.google.com/maps?q=36.6744,30.5590" target="_blank" rel="noopener" style="color:var(--cyan)">36.6744, 30.5590 ↗</a></td><td class="model">Kemer hotels</td><td class="num">15m</td><td><span class="av av-stock">YES</span></td><td class="num">3.3 (78)</td></tr>
+      <tr><td class="brand">Paradise Quad Safari</td><td>Kemer</td><td class="model"><a href="https://www.google.com/maps?q=36.5641,30.5255" target="_blank" rel="noopener" style="color:var(--cyan)">36.5641, 30.5255 ↗</a></td><td class="model">Kemer hotels</td><td class="num">25m</td><td><span class="av av-stock">YES</span></td><td class="num">4.5 (114)</td></tr>
+      <tr><td class="brand">Cat's Quad & Buggy</td><td>Manavgat</td><td class="model"><a href="https://www.google.com/maps?q=36.8448,31.4965" target="_blank" rel="noopener" style="color:var(--cyan)">36.8448, 31.4965 ↗</a></td><td class="model">Side / Kumköy</td><td class="num">25–30m</td><td><span class="av av-stock">YES</span></td><td class="num">3.6 (267)</td></tr>
+      <tr><td class="brand">Side Tours Antalya</td><td>Side</td><td class="model"><a href="https://www.google.com/maps?q=36.7742,31.4039" target="_blank" rel="noopener" style="color:var(--cyan)">36.7742, 31.4039 ↗</a></td><td class="model">Side hotels</td><td class="num">5m</td><td><span class="av av-stock">YES</span></td><td class="num">4.8 (171)</td></tr>
+      <tr><td class="brand">Bodrum Atv Buggy Safari</td><td>Bodrum</td><td class="model"><a href="https://www.google.com/maps?q=37.0858,27.6292" target="_blank" rel="noopener" style="color:var(--cyan)">37.0858, 27.6292 ↗</a></td><td class="model">Bodrum / Torba</td><td class="num">15m</td><td><span class="av av-stock">YES</span></td><td class="num">4.4 (330)</td></tr>
+      <tr><td class="brand">Bodrum Quad ATV Rent</td><td>Gümbet</td><td class="model"><a href="https://www.google.com/maps?q=37.0348,27.4019" target="_blank" rel="noopener" style="color:var(--cyan)">37.0348, 27.4019 ↗</a></td><td class="model">Gümbet / Bitez</td><td class="num">0–5m</td><td><span class="av av-stock">YES</span></td><td class="num">5.0 (24)</td></tr>
+      <tr><td class="brand">Safari Life Istanbul</td><td>Şile</td><td class="model"><a href="https://www.google.com/maps?q=41.1664,29.5623" target="_blank" rel="noopener" style="color:var(--cyan)">41.1664, 29.5623 ↗</a></td><td class="model">Foreign-tourist core</td><td class="num">75–90m</td><td><span class="av av-order">NO</span></td><td class="num">4.4 (152)</td></tr>
+      <tr><td class="brand">İstanbul ATV Şile</td><td>Şile</td><td class="model"><a href="https://www.google.com/maps?q=41.1641,29.5836" target="_blank" rel="noopener" style="color:var(--cyan)">41.1641, 29.5836 ↗</a></td><td class="model">Foreign-tourist core</td><td class="num">75–90m</td><td><span class="av av-order">NO</span></td><td class="num">4.7 (67)</td></tr>
+      <tr><td class="brand">Şile Quad Safari</td><td>Şile</td><td class="model"><a href="https://www.google.com/maps?q=41.1182,29.5933" target="_blank" rel="noopener" style="color:var(--cyan)">41.1182, 29.5933 ↗</a></td><td class="model">Foreign-tourist core</td><td class="num">80–95m</td><td><span class="av av-order">NO</span></td><td class="num">4.6 (79)</td></tr>
+      <tr><td class="brand">Ağva ATV Safari</td><td>Ağva</td><td class="model"><a href="https://www.google.com/maps?q=41.1273,29.8538" target="_blank" rel="noopener" style="color:var(--cyan)">41.1273, 29.8538 ↗</a></td><td class="model">Foreign-tourist core</td><td class="num">95m+</td><td><span class="av av-order">NO</span></td><td class="num">5.0 (55)</td></tr>
+      <tr><td class="brand">Ağva atv safari</td><td>Ağva</td><td class="model"><a href="https://www.google.com/maps?q=41.1358,29.8410" target="_blank" rel="noopener" style="color:var(--cyan)">41.1358, 29.8410 ↗</a></td><td class="model">Foreign-tourist core</td><td class="num">95m+</td><td><span class="av av-order">NO</span></td><td class="num">4.5 (25)</td></tr>
     </tbody>
   </table>
   </div></div>
@@ -1032,6 +1059,7 @@ document.getElementById('nav').addEventListener('click',e=>{
   document.querySelectorAll('.tab').forEach(t=>t.classList.remove('on'));
   document.getElementById(btn.dataset.tab).classList.add('on');
   if(btn.dataset.tab==='price') setTimeout(drawCharts,60);
+  if(btn.dataset.tab==='scout') setTimeout(initScoutMaps,80);
   window.scrollTo({top:0,behavior:'smooth'});
 });
 document.getElementById('fxToggle').addEventListener('click',e=>{
@@ -1180,6 +1208,44 @@ document.getElementById('scenLoad').addEventListener('click',e=>{
   calc();
   document.getElementById('econOut').scrollIntoView({behavior:'smooth',block:'center'});
 });
+
+/* SCOUTING MAPS (Leaflet, lazy-init on tab open) */
+const REGIONS=[
+ {id:'map_capp',center:[38.645,34.84],zoom:12,
+  zones:[{la:38.645,lo:34.832,r:13000,c:'#3af0b4',t:'Prime catchment — all Cappadocia hotels ≤1 hr, year-round'}],
+  bases:[{la:38.6512,lo:34.8470,n:'Göreme / Çavuşin fringe'}],
+  ops:[{la:38.6431,lo:34.8379,n:'Cappadocia Adventure',r:4.7,d:'Göreme 5m'},{la:38.6514,lo:34.8361,n:'ATV Turları Göreme',r:4.8,d:'Göreme 5m'},{la:38.6411,lo:34.8311,n:'Cappadocia Atv Tour',r:4.9,d:'Göreme 5m'},{la:38.6460,lo:34.8247,n:'Göreme Rental ATV',r:4.6,d:'Göreme 5m'},{la:38.6440,lo:34.8317,n:'Kapadokya ATV Turu',r:4.7,d:'Göreme 5m'},{la:38.6486,lo:34.8340,n:'Stone White Travel',r:4.0,d:'Göreme 5m'}]},
+ {id:'map_ant',center:[36.80,30.98],zoom:9,
+  zones:[{la:36.68,lo:30.56,r:12000,c:'#3af0b4',t:'Kemer catchment — prime'},{la:37.01,lo:30.82,r:14000,c:'#3af0b4',t:'Belek / Aksu catchment — prime (airport-adjacent, 5-star belt)'},{la:36.80,lo:31.45,r:17000,c:'#3af0b4',t:'Side / Manavgat catchment — prime (largest bed-base)'}],
+  bases:[{la:37.0100,lo:30.8180,n:'Belek / Aksu (primary)'},{la:36.6790,lo:30.5585,n:'Kemer'},{la:36.8450,lo:31.4970,n:'Side / Manavgat'}],
+  ops:[{la:37.0099,lo:30.8177,n:'Antalya Buggy-Quad',r:4.2,d:'Belek 20–30m'},{la:36.6805,lo:30.5573,n:'Likya Quad Safari',r:4.7,d:'Kemer 15m'},{la:36.6744,lo:30.5590,n:'Göynük Quad Safari',r:3.3,d:'Kemer 15m'},{la:36.5641,lo:30.5255,n:'Paradise Quad Safari',r:4.5,d:'Kemer 25m'},{la:36.8448,lo:31.4965,n:"Cat's Quad & Buggy",r:3.6,d:'Side 25–30m'},{la:36.7742,lo:31.4039,n:'Side Tours Antalya',r:4.8,d:'Side 5m'}]},
+ {id:'map_bod',center:[37.05,27.52],zoom:11,
+  zones:[{la:37.05,lo:27.52,r:18000,c:'#ffb000',t:'Workable catchment — compact but summer-only & SİT-sensitive'}],
+  bases:[{la:37.0858,lo:27.6292,n:'Çamarası / Mazı interior'}],
+  ops:[{la:37.0858,lo:27.6292,n:'Bodrum Atv Buggy Safari',r:4.4,d:'Bodrum 15m'},{la:37.0348,lo:27.4019,n:'Bodrum Quad ATV Rent',r:5.0,d:'Gümbet 0–5m'}]},
+ {id:'map_ist',center:[41.06,29.30],zoom:9,
+  zones:[{la:41.13,lo:29.59,r:11000,c:'#ffb000',t:'Şile trail zone — good off-road, wrong catchment'},{la:41.008,lo:28.978,r:7000,c:'#FF2800',t:'Foreign-tourist hotel core (Sultanahmet / Taksim) — Şile is 75–90 min away: FAILS the 1-hr test'}],
+  bases:[{la:41.1300,lo:29.5900,n:'Şile / Ağva forest'}],
+  ops:[{la:41.1664,lo:29.5623,n:'Safari Life Istanbul',r:4.4,d:'core 75–90m'},{la:41.1641,lo:29.5836,n:'İstanbul ATV Şile',r:4.7,d:'core 75–90m'},{la:41.1182,lo:29.5933,n:'Şile Quad Safari',r:4.6,d:'core 80–95m'},{la:41.1273,lo:29.8538,n:'Ağva ATV Safari',r:5.0,d:'core 95m+'},{la:41.1358,lo:29.8410,n:'Ağva atv safari',r:4.5,d:'core 95m+'}],
+  extra:[{la:41.0082,lo:28.9784,n:'Sultanahmet — tourist-hotel core'}]}
+];
+let scoutMaps=[], scoutInit=false;
+function gmap(la,lo){return 'https://www.google.com/maps?q='+la+','+lo;}
+function initScoutMaps(){
+  if(typeof L==='undefined'){return;}
+  if(scoutInit){scoutMaps.forEach(m=>m.invalidateSize());return;}
+  scoutInit=true;
+  REGIONS.forEach(R=>{
+    const m=L.map(R.id,{scrollWheelZoom:false}).setView(R.center,R.zoom);
+    L.tileLayer('https://{s}.basemap.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png',{attribution:'© OpenStreetMap © CARTO',subdomains:'abcd',maxZoom:19}).addTo(m);
+    R.zones.forEach(z=>L.circle([z.la,z.lo],{radius:z.r,color:z.c,weight:1.5,dashArray:'5 4',fillColor:z.c,fillOpacity:.12}).addTo(m).bindPopup(z.t));
+    (R.bases||[]).forEach(b=>L.circleMarker([b.la,b.lo],{radius:9,color:'#07120d',weight:2,fillColor:'#3af0b4',fillOpacity:1}).addTo(m).bindPopup('<b>◆ PROPOSED BASE</b><br>'+b.n+'<br><a href="'+gmap(b.la,b.lo)+'" target="_blank" rel="noopener">Open in Google Maps ↗</a>'));
+    (R.extra||[]).forEach(x=>L.circleMarker([x.la,x.lo],{radius:7,color:'#fff',weight:1,fillColor:'#8b909c',fillOpacity:.9}).addTo(m).bindPopup('<b>'+x.n+'</b><br><a href="'+gmap(x.la,x.lo)+'" target="_blank" rel="noopener">Open in Google Maps ↗</a>'));
+    R.ops.forEach(o=>L.circleMarker([o.la,o.lo],{radius:7,color:'#fff',weight:1,fillColor:'#FF2800',fillOpacity:.92}).addTo(m).bindPopup('<b>'+o.n+'</b><br>'+o.r+'★ · '+o.d+'<br><a href="'+gmap(o.la,o.lo)+'" target="_blank" rel="noopener">Open in Google Maps ↗</a>'));
+    scoutMaps.push(m);
+  });
+  setTimeout(()=>scoutMaps.forEach(m=>m.invalidateSize()),120);
+}
 
 renderTable(); updateTourPrices(); renderBands(); renderSites(); calc(); renderScen();
 </script>
