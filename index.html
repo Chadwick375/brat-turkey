@@ -146,6 +146,22 @@ tbody tr:last-child td{border-bottom:none}
 h3.block{font-family:'Saira Condensed';font-weight:800;text-transform:uppercase;font-size:21px;margin:30px 0 14px;letter-spacing:.01em}
 h3.block .bar2{display:inline-block;width:28px;height:3px;background:var(--red);vertical-align:middle;margin-right:10px;box-shadow:0 0 10px var(--red-glow)}
 .district{display:inline-block;font-family:'JetBrains Mono';font-size:10.5px;color:var(--muted);background:var(--panel2);border:1px solid var(--line);border-radius:4px;padding:3px 8px;margin:3px 4px 3px 0}
+.calc-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:14px}
+@media(max-width:900px){.calc-grid{grid-template-columns:repeat(2,1fr)}}
+@media(max-width:560px){.calc-grid{grid-template-columns:1fr}}
+.field{display:flex;flex-direction:column;gap:5px}
+.field label{font-family:'JetBrains Mono';font-size:10.5px;color:var(--muted);text-transform:uppercase;letter-spacing:.04em}
+.field input{background:var(--bg2);border:1px solid var(--line);border-radius:6px;color:var(--txt);font-family:'JetBrains Mono';font-size:15px;padding:9px 11px;width:100%}
+.field input:focus{outline:none;border-color:var(--red);box-shadow:0 0 10px var(--red-glow)}
+.scorebar{height:7px;background:var(--panel2);border-radius:4px;overflow:hidden;margin-top:6px;min-width:90px}
+.scorebar i{display:block;height:100%;background:linear-gradient(90deg,var(--red),var(--amber))}
+.swot{border:1px solid var(--line);border-radius:9px;padding:18px;background:var(--panel)}
+.swot h4{font-family:'Saira Condensed';font-weight:800;font-size:18px;text-transform:uppercase;margin-bottom:10px}
+.swot ul{list-style:none;font-size:13px}
+.swot li{padding:5px 0 5px 16px;position:relative;color:var(--muted)}
+.swot li::before{content:"▸";position:absolute;left:0;color:var(--red)}
+.swot.s{border-top:2px solid var(--green)} .swot.w{border-top:2px solid var(--red)}
+.swot.o{border-top:2px solid var(--cyan)} .swot.t{border-top:2px solid var(--amber)}
 /* engine-size bands */
 .band-panel{background:linear-gradient(160deg,var(--panel),var(--bg2));border:1px solid var(--line);border-radius:10px;margin-bottom:20px;overflow:hidden}
 .band-panel::before{content:"";display:block;height:3px;background:linear-gradient(90deg,var(--red),transparent 70%)}
@@ -203,6 +219,11 @@ a:hover{text-decoration:underline}
     <button data-tab="tours"><span class="n">05</span> Tour Operators</button>
     <button data-tab="play"><span class="n">06</span> BRAT Playbook</button>
     <button data-tab="bands"><span class="n">07</span> Engine Size &times; Value</button>
+    <button data-tab="demand"><span class="n">08</span> Tourism &amp; Demand</button>
+    <button data-tab="site"><span class="n">09</span> Site Scorecard</button>
+    <button data-tab="setup"><span class="n">10</span> Setup &amp; Compliance</button>
+    <button data-tab="econ"><span class="n">11</span> Unit Economics</button>
+    <button data-tab="risk"><span class="n">12</span> Competition &amp; Risk</button>
   </nav>
 </header>
 
@@ -456,6 +477,159 @@ a:hover{text-decoration:underline}
   <p class="note">Ranking uses the selected currency. Green "TR list" = confirmed Turkish retail; amber "EST." = modelled (CFMOTO quote items estimated from neighbouring TR list prices; foreign brands from US MSRP × 1.6). Availability flag shown per unit.</p>
 </section>
 
+<!-- 08 TOURISM & DEMAND -->
+<section class="tab" id="demand">
+  <div class="sect-h"><span class="id">08 //</span><h2>Tourism &amp; Demand</h2><div class="rule"></div></div>
+  <p class="lead">The volume engine behind the whole thesis. Turkey just posted its <b>best tourism year on record</b> — and the government is openly pushing to spread visitors across all four seasons and more regions, which is tailwind for an experience operator.</p>
+  <div class="grid g4">
+    <div class="card"><div class="k">Total visitors 2025</div><div class="stat red">63.9<small>M</small></div><p>All-time record, <b>+2.7%</b> YoY. 52.8M foreign + 11.1M Turkish diaspora.</p></div>
+    <div class="card cyan"><div class="k">Tourism revenue 2025</div><div class="stat cyan">$65.2<small>B</small></div><p>+6.8% YoY. 2026 target <b>$68B</b> with double-digit growth ambition.</p></div>
+    <div class="card amber"><div class="k">Avg. length of stay</div><div class="stat amber">10.7<small> nights</small></div><p>Avg. spend <b>$114/day</b> per foreign visitor — a long, spending audience to capture.</p></div>
+    <div class="card green"><div class="k">Tourism share of GDP</div><div class="stat green">~10<small>%</small></div><p>~5% of employment. A strategically protected, state-backed sector.</p></div>
+  </div>
+  <h3 class="block"><span class="bar2"></span>Where the foreign arrivals land (share)</h3>
+  <div class="grid g2">
+    <div class="card">
+      <div class="k">By region (foreign arrivals, early 2026)</div>
+      <div class="li"><div class="dot"></div><div><h4>İstanbul — 51.6%</h4><p>City-break + year-round hub. Huge top-of-funnel; off-road demand is day-trip/novelty, not core.</p></div></div>
+      <div class="li"><div class="dot a"></div><div><h4>Antalya — 14.6%</h4><p>The beach-tourism capital and the <b>prime off-road tour catchment</b> — summer volume far exceeds the annual-average share.</p></div></div>
+      <div class="li"><div class="dot c"></div><div><h4>Edirne — 11.7%</h4><p>Largely land-border transit (Bulgaria/Greece), not a leisure off-road market.</p></div></div>
+      <div class="li"><div class="dot g"></div><div><h4>Muğla (Bodrum/Fethiye/Marmaris) &amp; Nevşehir (Cappadocia)</h4><p>Lower headline share but <b>high leisure-intensity</b> — exactly the adventure-activity buyer.</p></div></div>
+    </div>
+    <div class="card cyan">
+      <div class="k">Top source markets 2025</div>
+      <div class="li"><div class="dot c"></div><div><h4>Russia — 6.90M</h4><p>#1. Drives Mediterranean coast, extends season, high-occupancy. Adventure-friendly demographic.</p></div></div>
+      <div class="li"><div class="dot a"></div><div><h4>Germany — 6.75M</h4><p>Decades-deep, stable, package-holiday core. Reliable feeder for organised activities.</p></div></div>
+      <div class="li"><div class="dot g"></div><div><h4>United Kingdom — 4.27M</h4><p>Growing; seeking experiences beyond the beach — the sweet spot for premium guided tours.</p></div></div>
+      <div class="li"><div class="dot"></div><div><h4>Emerging: China +115% YoY</h4><p>Asia now ~24% of arrivals — fast-growing, experience-hungry, OTA-led booking behaviour.</p></div></div>
+    </div>
+  </div>
+  <p class="note">Sources: TurkStat / Ministry of Culture &amp; Tourism 2025 full-year data (via Daily Sabah, Turkish Minute, Travel & Tour World, Jan–Feb 2026); TradingEconomics arrivals (Q1 2026 regional shares). Regional % are share of foreign arrivals and under-state peak-summer coastal concentration.</p>
+</section>
+
+<!-- 09 SITE SCORECARD -->
+<section class="tab" id="site">
+  <div class="sect-h"><span class="id">09 //</span><h2>Site Scorecard</h2><div class="rule"></div></div>
+  <p class="lead">Where to plant the flag. Five candidate bases scored 1&ndash;5 across the factors that actually drive a tour-fleet's success, weighted by importance. <b>"Competition headroom"</b> is inverted — higher = less saturated. This is an analytical framework to structure the decision, not a substitute for on-the-ground diligence.</p>
+  <div class="tbl-wrap"><div class="tbl-scroll">
+  <table id="siteTable">
+    <thead><tr>
+      <th>Rank</th><th>Candidate base</th>
+      <th class="num">Volume<br><span style="font-weight:400">25%</span></th>
+      <th class="num">Season<br><span style="font-weight:400">20%</span></th>
+      <th class="num">Terrain<br><span style="font-weight:400">15%</span></th>
+      <th class="num">Headroom<br><span style="font-weight:400">15%</span></th>
+      <th class="num">Reg. ease<br><span style="font-weight:400">10%</span></th>
+      <th class="num">Supply<br><span style="font-weight:400">15%</span></th>
+      <th>Weighted</th>
+    </tr></thead>
+    <tbody id="siteBody"></tbody>
+  </table>
+  </div></div>
+  <div class="grid g2" style="margin-top:18px">
+    <div class="card green"><div class="k">Read — year-round play</div><h4 style="font-size:17px">Cappadocia</h4><p>Wins on <b>season length (12-month, incl. snow)</b> and iconic terrain — the only base that doesn't idle Nov–Mar. Trade-off: saturated, and protected-landscape permitting needs care. Best fit if the goal is a stable, premium, all-year operation.</p></div>
+    <div class="card amber"><div class="k">Read — max volume play</div><h4 style="font-size:17px">Antalya coast</h4><p>Wins on <b>raw tourist volume + dealer/supply proximity</b> (Manavgat/Serik/Alanya). Trade-off: brutal seasonality and the most crowded competitive set. Best fit for a high-volume seasonal test with fast logistics.</p></div>
+  </div>
+  <p class="note">Scores are an analytical judgement from this report's research (Tabs 01/02/05/08), not a survey. Adjust weights to your risk appetite — a year-round-revenue priority lifts Cappadocia; a volume-and-logistics priority lifts Antalya.</p>
+</section>
+
+<!-- 10 SETUP & COMPLIANCE -->
+<section class="tab" id="setup">
+  <div class="sect-h"><span class="id">10 //</span><h2>Setup &amp; Compliance</h2><div class="rule"></div></div>
+  <p class="lead">Can a foreign-owned BRAT entity legally run quad safaris in Turkey? <b>Yes — 100% foreign ownership is permitted</b> — but tour operations are licensed and the path has hard gates. Here's the route, in order.</p>
+  <div class="tbl-wrap"><div class="tbl-scroll">
+  <table>
+    <thead><tr><th>#</th><th>Step</th><th>Detail</th><th>Indicative cost / note</th></tr></thead>
+    <tbody>
+      <tr><td class="num">1</td><td class="brand">Form the company</td><td class="model">Ltd (Limited Şirket) or JSC, with travel/tourism activity codes in the articles. 100% foreign ownership OK.</td><td class="num">Legal + reg: AED 8&ndash;20k</td></tr>
+      <tr><td class="num">2</td><td class="brand">Register: Trade Registry, Tax Office, SGK</td><td class="model">Standard corporate registration + social-security enrolment.</td><td class="num">Incl. above</td></tr>
+      <tr><td class="num">3</td><td class="brand">Physical office to TÜRSAB standard</td><td class="model">Signboard, phone line, internet, dedicated premises — inspected.</td><td class="num">Rent + fit-out</td></tr>
+      <tr><td class="num">4</td><td class="brand">Apply for "agency title" — Ministry of Culture &amp; Tourism</td><td class="model">Government application fee for the travel-agency title.</td><td class="num">~₺35,000 (2025) ≈ AED 2.8k</td></tr>
+      <tr><td class="num">5</td><td class="brand">Register with TÜRSAB — Group A licence</td><td class="model">Mandatory. <b>Group A</b> = full ops: tours, transfers, packages. Membership + security deposit + bank guarantee.</td><td class="num">Membership/guarantee: ₺200k&ndash;750k+ (advisor est.; varies)</td></tr>
+      <tr><td class="num">6</td><td class="brand">Employ a licensed agency manager</td><td class="model">Seyahat Acentesi Müdürü — TÜRSAB-certified / tourism-faculty grad. Turkish citizen <b>or</b> work-permitted foreigner.</td><td class="num">Salary (see Tab 11)</td></tr>
+      <tr><td class="num">7</td><td class="brand">Register the fleet — Traktör T3 / T1</td><td class="model">4x4 quads plate as tractors; sets ÖTV/VAT (already in CFMOTO list prices), insurance &amp; road-legal scope.</td><td class="num">Plate/insurance per unit</td></tr>
+      <tr><td class="num">8</td><td class="brand">Insurance + guide & route compliance</td><td class="model">Operator liability + passenger cover; route permissions (esp. protected areas in Cappadocia).</td><td class="num">Annual premium</td></tr>
+    </tbody>
+  </table>
+  </div></div>
+  <div class="grid g3" style="margin-top:16px">
+    <div class="card cyan"><div class="k">Foreign staff salary floors (2026)</div><p style="margin-top:2px"><b>Work-permit minimums</b> tied to the national min wage (₺33,030 gross): specialists 2× (₺66,060), dept managers 3× (₺99,090), senior managers 5× (₺165,150). Budget accordingly for any expat role.</p></div>
+    <div class="card amber"><div class="k">Fast-track option</div><p style="margin-top:2px">Advisors offer <b>ready-made licensed agencies for acquisition</b> — buying an existing TÜRSAB-Group-A shell can compress months of process. Worth pricing vs. greenfield.</p></div>
+    <div class="card"><div class="k">The cleaner BRAT route</div><p style="margin-top:2px">Your <b>host-operator model</b> sidesteps much of this: run on a licensed local DMC's TÜRSAB cover as the asset/ops partner, test the market, then license-up if it works.</p></div>
+  </div>
+  <p class="note">Sources: Legal500 "Set up a business in Turkey 2026"; Mondaq &amp; NPartners TÜRSAB guides (2025); workon.com.tr; Envoy Global work-permit thresholds 2026. Cost figures vary materially between advisors and exclude refundable bank guarantees — <b>confirm with a Turkish tourism lawyer before budgeting</b>.</p>
+</section>
+
+<!-- 11 UNIT ECONOMICS -->
+<section class="tab" id="econ">
+  <div class="sect-h"><span class="id">11 //</span><h2>Unit Economics</h2><div class="rule"></div></div>
+  <p class="lead">The model shareholders will poke hardest. Set the assumptions — fleet, vehicle cost, pricing, season, costs — and the P&amp;L recomputes live. All figures in <b>AED</b>. Defaults reflect a value-fleet seasonal coastal test; change anything to stress-test.</p>
+  <div class="card" style="margin-bottom:18px">
+    <div class="k" style="margin-bottom:14px">Assumptions — edit any field</div>
+    <div class="calc-grid">
+      <div class="field"><label>Fleet size (quads)</label><input id="c_fleet" type="number" value="12"></div>
+      <div class="field"><label>Avg vehicle cost (AED)</label><input id="c_vcost" type="number" value="45000"></div>
+      <div class="field"><label>Setup: entity + licence (AED)</label><input id="c_setup" type="number" value="90000"></div>
+      <div class="field"><label>Ticket / rider (AED)</label><input id="c_ticket" type="number" value="180"></div>
+      <div class="field"><label>Tours / vehicle / day</label><input id="c_tpd" type="number" value="3"></div>
+      <div class="field"><label>Operating days / year</label><input id="c_days" type="number" value="210"></div>
+      <div class="field"><label>Seat utilisation (%)</label><input id="c_util" type="number" value="70"></div>
+      <div class="field"><label>Guides / staff (count)</label><input id="c_guides" type="number" value="4"></div>
+      <div class="field"><label>Wage / staff / month (AED)</label><input id="c_gwage" type="number" value="3800"></div>
+      <div class="field"><label>Fuel+maint / vehicle / mo (AED)</label><input id="c_fuelm" type="number" value="900"></div>
+      <div class="field"><label>Overheads / month (AED)</label><input id="c_oh" type="number" value="8000"></div>
+      <div class="field"><label>OTA commission (%)</label><input id="c_ota" type="number" value="20"></div>
+    </div>
+  </div>
+  <div class="grid g4" id="econOut"></div>
+  <p class="note">Model: gross revenue = fleet × tours/day × days × ticket × utilisation (1 paying rider/vehicle/tour). Net = less OTA commission. EBITDA = net − (staff + fuel/maint + overheads). Payback = capex ÷ EBITDA. Break-even = riders/day to cover opex + 5-yr straight-line capex. Cost anchors: Turkey 2026 min wage ₺33,030 gross (~AED 2,650), petrol ~₺64/L (~AED 5.1). A planning model — not a forecast or guarantee.</p>
+</section>
+
+<!-- 12 COMPETITION & RISK -->
+<section class="tab" id="risk">
+  <div class="sect-h"><span class="id">12 //</span><h2>Competition &amp; Risk</h2><div class="rule"></div></div>
+  <p class="lead">Who you'd be up against, and what could go wrong. The competitive set is broad but <b>commoditised on price and thin on premium safety-led operators</b> — which is precisely BRAT's wedge.</p>
+  <h3 class="block"><span class="bar2"></span>Competitor benchmark</h3>
+  <div class="tbl-wrap"><div class="tbl-scroll">
+  <table>
+    <thead><tr><th>Operator</th><th>Base(s)</th><th>Model</th><th>Positioning</th></tr></thead>
+    <tbody>
+      <tr><td class="brand">TravelShop Turkey / Murti's Tour</td><td>Istanbul, Cappadocia, Fethiye, Marmaris, Antalya +15</td><td class="model">Licensed DMC (MoT #5291)</td><td class="model">Broad multi-activity reseller; discounts to 50%. Volume play.</td></tr>
+      <tr><td class="brand">Quad Maniac Turkey</td><td>Fethiye</td><td class="model">Owner-operator</td><td class="model">Forest convoys, practice park + test drive. Safety-gated funnel — closest to BRAT's style.</td></tr>
+      <tr><td class="brand">Cappadociaway / Ulink / regional</td><td>Cappadocia (Göreme)</td><td class="model">Local operators + OTA</td><td class="model">Sunrise/sunset valley routes, hotel pickup, high daily slot volume.</td></tr>
+      <tr><td class="brand">OTA marketplaces</td><td>Nationwide</td><td class="model">Viator · GetYourGuide · Klook</td><td class="model">Aggregate demand; 9+ Cappadocia ATV products on Klook alone. 20&ndash;30% commission.</td></tr>
+      <tr><td class="brand">Long-tail local outfits</td><td>Every coastal resort</td><td class="model">Small fleets, informal</td><td class="model">Cheap, variable safety/quality — the standard BRAT can beat on professionalism.</td></tr>
+    </tbody>
+  </table>
+  </div></div>
+  <h3 class="block"><span class="bar2"></span>SWOT — BRAT entering Turkey</h3>
+  <div class="grid g4">
+    <div class="swot s"><h4 style="color:var(--green)">Strengths</h4><ul>
+      <li>10 yrs premium desert-ops know-how</li><li>Sub-0.01% incident track record &amp; safety systems</li><li>Brand + guide-standard playbook from UAE</li><li>Capital &amp; procurement discipline</li></ul></div>
+    <div class="swot w"><h4 style="color:#ff6a4d">Weaknesses</h4><ul>
+      <li>No local market/regulatory presence yet</li><li>Language &amp; on-ground network gap</li><li>Premium model unproven at TR price points</li><li>Remote management overhead</li></ul></div>
+    <div class="swot o"><h4 style="color:var(--cyan)">Opportunities</h4><ul>
+      <li>Record 63.9M visitors, state-backed growth</li><li>Commoditised field — white space for premium/VIP</li><li>Cheap, in-country value fleet (CFMOTO/Hisun)</li><li>Year-round Cappadocia hedge vs seasonal rivals</li></ul></div>
+    <div class="swot t"><h4 style="color:var(--amber)">Threats</h4><ul>
+      <li>Lira volatility vs hard-currency costs</li><li>Brutal coastal seasonality (Nov–Mar)</li><li>Regional geopolitics &amp; demand shocks</li><li>OTA commission margin drag</li></ul></div>
+  </div>
+  <h3 class="block"><span class="bar2"></span>Risk register</h3>
+  <div class="tbl-wrap"><div class="tbl-scroll">
+  <table>
+    <thead><tr><th>Risk</th><th>Likelihood</th><th>Impact</th><th>Mitigation</th></tr></thead>
+    <tbody>
+      <tr><td class="brand">Seasonality (4–5 idle months)</td><td><span class="av av-order">HIGH</span></td><td><span class="av av-order">HIGH</span></td><td class="model">Anchor Cappadocia (year-round) or run an asset-light seasonal lease; redeploy fleet.</td></tr>
+      <tr><td class="brand">FX / lira depreciation</td><td><span class="av av-order">HIGH</span></td><td><span class="av av-ltd">MED</span></td><td class="model">Price tours in EUR; buy fleet/parts in-country; keep reserves in hard currency.</td></tr>
+      <tr><td class="brand">Regulatory / licensing delay</td><td><span class="av av-ltd">MED</span></td><td><span class="av av-order">HIGH</span></td><td class="model">Host-operator entry first; or acquire a ready TÜRSAB-A shell; local counsel.</td></tr>
+      <tr><td class="brand">Low yield / thin margin</td><td><span class="av av-ltd">MED</span></td><td><span class="av av-ltd">MED</span></td><td class="model">Premium/VIP tier (+40–60%); go direct over OTAs; tight fleet utilisation.</td></tr>
+      <tr><td class="brand">Safety incident / liability</td><td><span class="av av-stock">LOW</span></td><td><span class="av av-order">HIGH</span></td><td class="model">BRAT SOPs, full insurance, guide certification, practice-park gating.</td></tr>
+      <tr><td class="brand">Geopolitical / demand shock</td><td><span class="av av-ltd">MED</span></td><td><span class="av av-order">HIGH</span></td><td class="model">Low fixed-cost test, host model, diversify source-market channels.</td></tr>
+    </tbody>
+  </table>
+  </div></div>
+  <p class="note">Competitor data from Tab 05 research; SWOT/risk are analytical judgement for decision framing. Likelihood/impact are indicative ratings, not quantified probabilities.</p>
+</section>
+
 </main>
 
 <footer>
@@ -683,7 +857,66 @@ function drawCharts(){
       scales:{x:{grid:{color:'rgba(255,255,255,.05)'},ticks:{callback:v=>CUR==='AED'?(v/1000+'k'):('₺'+v/1000+'k')}},y:{grid:{display:false},ticks:{font:{size:11}}}}}});
 }
 
-renderTable(); updateTourPrices(); renderBands();
+/* SITE SCORECARD */
+const CRIT=['Volume','Season','Terrain','Headroom','Reg','Supply'];
+const WEIGHTS=[.25,.20,.15,.15,.10,.15];
+const SITES=[
+  {n:'Cappadocia (Göreme)', s:[4,5,5,2,3,3]},
+  {n:'Antalya coast (Side / Kemer / Alanya)', s:[5,3,4,2,3,5]},
+  {n:'Fethiye / Ölüdeniz', s:[4,3,5,3,3,3]},
+  {n:'Bodrum / Muğla', s:[4,2,3,3,3,4]},
+  {n:'Kuşadası / Aydın', s:[3,2,3,3,3,3]}
+];
+function renderSites(){
+  const body=document.getElementById('siteBody'); if(!body)return;
+  const rows=SITES.map(o=>{
+    const w=o.s.reduce((a,v,i)=>a+v*WEIGHTS[i],0); return {...o, w:w, pct:Math.round(w/5*100)};
+  }).sort((a,b)=>b.w-a.w);
+  body.innerHTML=rows.map((o,i)=>{
+    const cells=o.s.map(v=>'<td class="num">'+v+'</td>').join('');
+    const hl=i===0?'style="background:rgba(58,240,180,.07)"':'';
+    return '<tr '+hl+'><td class="num">'+(i===0?'<span style="color:var(--green);font-weight:800">#1</span>':'#'+(i+1))+'</td>'+
+      '<td class="brand">'+o.n+'</td>'+cells+
+      '<td><b style="font-family:JetBrains Mono;color:'+(i===0?'var(--green)':'var(--cyan)')+'">'+o.pct+'%</b><div class="scorebar"><i style="width:'+o.pct+'%"></i></div></td></tr>';
+  }).join('');
+}
+
+/* UNIT ECONOMICS */
+function aedFmt(n){ return 'AED '+Math.round(n).toLocaleString(); }
+function calc(){
+  const g=id=>parseFloat(document.getElementById(id).value)||0;
+  const fleet=g('c_fleet'),vcost=g('c_vcost'),setup=g('c_setup'),ticket=g('c_ticket'),
+    tpd=g('c_tpd'),days=g('c_days'),util=g('c_util')/100,guides=g('c_guides'),
+    gwage=g('c_gwage'),fuelm=g('c_fuelm'),oh=g('c_oh'),ota=g('c_ota')/100;
+  const capex=fleet*vcost+setup;
+  const gross=fleet*tpd*days*ticket*util;
+  const comm=gross*ota;
+  const net=gross-comm;
+  const opex=guides*gwage*12 + fleet*fuelm*12 + oh*12;
+  const ebitda=net-opex;
+  const margin=net>0?Math.round(ebitda/net*100):0;
+  const payback=ebitda>0?(capex/ebitda):null;
+  const annualFixed=opex+capex/5;
+  const perRiderNet=ticket*(1-ota);
+  const beRiders=perRiderNet>0?(annualFixed/(perRiderNet*days)):null;
+  const out=document.getElementById('econOut'); if(!out)return;
+  const tryNote=v=>'<div class="price-sub">≈ ₺'+Math.round(v*FX.AED_TRY).toLocaleString()+'</div>';
+  const ebClass=ebitda>=0?'green':'red';
+  out.innerHTML=
+    '<div class="card cyan"><div class="k">Total capex</div><div class="stat cyan" style="font-size:30px">'+aedFmt(capex)+'</div>'+tryNote(capex)+'<p>Fleet + entity/licence setup.</p></div>'+
+    '<div class="card"><div class="k">Annual net revenue</div><div class="stat" style="font-size:30px">'+aedFmt(net)+'</div>'+tryNote(net)+'<p>After '+Math.round(ota*100)+'% OTA commission.</p></div>'+
+    '<div class="card amber"><div class="k">Annual opex</div><div class="stat amber" style="font-size:30px">'+aedFmt(opex)+'</div>'+tryNote(opex)+'<p>Staff + fuel/maint + overheads.</p></div>'+
+    '<div class="card '+ebClass+'"><div class="k">EBITDA / yr</div><div class="stat '+ebClass+'" style="font-size:30px">'+aedFmt(ebitda)+'</div>'+tryNote(ebitda)+'<p>'+margin+'% margin on net revenue.</p></div>'+
+    '<div class="card green"><div class="k">Payback period</div><div class="stat green" style="font-size:30px">'+(payback?payback.toFixed(1)+'<small> yrs</small>':'—')+'</div><p>Capex ÷ EBITDA'+(payback&&payback>5?' — slow; revisit assumptions.':'.')+'</p></div>'+
+    '<div class="card"><div class="k">Break-even riders / day</div><div class="stat" style="font-size:30px">'+(beRiders?Math.ceil(beRiders):'—')+'</div><p>To cover opex + 5-yr capex. Capacity = '+Math.round(fleet*tpd)+'/day.</p></div>'+
+    '<div class="card cyan"><div class="k">Daily capacity (max)</div><div class="stat cyan" style="font-size:30px">'+Math.round(fleet*tpd)+'<small> rides</small></div><p>At '+Math.round(util*100)+'% util = '+Math.round(fleet*tpd*util)+' paid/day.</p></div>'+
+    '<div class="card amber"><div class="k">Revenue / vehicle / yr</div><div class="stat amber" style="font-size:30px">'+aedFmt(fleet>0?net/fleet:0)+'</div><p>Net, per quad — fleet efficiency check.</p></div>';
+}
+['c_fleet','c_vcost','c_setup','c_ticket','c_tpd','c_days','c_util','c_guides','c_gwage','c_fuelm','c_oh','c_ota'].forEach(id=>{
+  const el=document.getElementById(id); if(el) el.addEventListener('input',calc);
+});
+
+renderTable(); updateTourPrices(); renderBands(); renderSites(); calc();
 </script>
 </body>
 </html>
